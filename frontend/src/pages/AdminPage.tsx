@@ -74,7 +74,7 @@ export default function AdminPage() {
       <div className="max-w-2xl mx-auto">
         <div className="mb-xl">
           <h1 className="title-lg mb-sm">Admin Settings</h1>
-          <p className="text-secondary">Deploy the ScholarShield contract to the Midnight network.</p>
+          <p className="text-secondary">Deploy the EDURISE contract to the Midnight network.</p>
         </div>
 
         <div className="card border-accent">

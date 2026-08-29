@@ -16,6 +16,14 @@
 EduRISE is a decentralized application (dApp) engineered on the **Midnight Network** utilizing the **Compact** smart contract language. The platform serves as a Zero-Knowledge (ZK) eligibility gate for academic scholarships. It allows students to cryptographically prove that they meet stringent academic and financial requirements (such as minimum GPA and maximum family income) without ever exposing their raw, sensitive data to centralized portals, scholarship boards, or the public blockchain ledger.
 
 ---
+## Official Submission Links
+
+- **Live Application (Vercel):** [Open App](https://edu-rise-sigma.vercel.app/)
+- **Deployed Contract (Midnight Preprod):** [View Contract](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
+- **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
+- **Project Announcement on X:** [View Post](https://x.com/zoid7r/status/2093733340386103434)
+
+---
 
 ## Table of Contents
 
@@ -27,14 +35,6 @@ EduRISE is a decentralized application (dApp) engineered on the **Midnight Netwo
 6. [Project Showcase & Verification Proofs](#project-showcase--verification-proofs)
 7. [Local Development & Setup Guide](#local-development--setup-guide)
 
----
-
-## Official Submission Links
-
-- **Live Application (Vercel):** [Open App](https://edu-rise-sigma.vercel.app/)
-- **Deployed Contract (Midnight Preprod):** [View Contract](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
-- **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-- **Project Announcement on X:** [View Post](https://x.com/zoid7r/status/2093733340386103434)
 
 ---
 

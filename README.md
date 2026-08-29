@@ -1,5 +1,3 @@
-<div align center>
-    
 # EduRISE
 
 **Privacy-Preserving Scholarship Verification on the Midnight Network**

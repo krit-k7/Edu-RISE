@@ -91,7 +91,7 @@ export default function LandingPage() {
 
       {/* How It Works Section */}
       <section className="how-it-works my-xl max-w-3xl mx-auto">
-        <h2 className="title-md text-center mb-xl">How ScholarShield Works</h2>
+        <h2 className="title-md text-center mb-xl">How EDURISE Works</h2>
         <div className="space-y-md" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
           
           <div className="card flex items-start gap-md" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>

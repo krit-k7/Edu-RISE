@@ -1,10 +1,10 @@
-# 🎓 EduRISE — Prove eligibility, reveal nothing
+# 🎓 EduRise — Prove eligibility, reveal nothing
 
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight-blueviolet?style=for-the-badge)](https://midnight.network)
 [![Language](https://img.shields.io/badge/Language-Compact-orange?style=for-the-badge)](https://midnight.network)
 [![Tested With](https://img.shields.io/badge/Tested%20With-Vitest-yellow?style=for-the-badge)](https://vitest.dev)
 [![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/EduRISE&root=frontend)
+[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/Edu-Rise&root=frontend)
 [![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/zoid7r/status/2093733340386103434)
 
 A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
@@ -33,7 +33,7 @@ applicant data.
 | **Demo Video** | [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
 | **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
 
-<img width="1916" height="885" alt="EduRISE UI" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
+<img width="1916" height="885" alt="Edu-Rise UI" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
 
 ---
 
@@ -59,7 +59,7 @@ standing identity-theft risk.
 
 ### The solution
 
-EduRISE removes the document upload entirely. Verification happens
+Edu-Rise removes the document upload entirely. Verification happens
 mathematically, in four steps:
 
 1. **Public state.** The scholarship board publishes `min_gpa` and
@@ -298,7 +298,7 @@ sees a raw proof server.
 
 ```bash
 git clone https://github.com/krit-k7/Edu-RISE.git
-cd EduRISE
+cd Edu-Rise
 yarn install
 ```
 

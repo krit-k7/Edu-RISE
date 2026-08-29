@@ -1,6 +1,4 @@
-# EduRISE
-
-**Privacy-Preserving Scholarship Verification on the Midnight Network**
+# 🎓 EduRISE — Prove eligibility, reveal nothing
 
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight-blueviolet?style=for-the-badge)](https://midnight.network)
 [![Language](https://img.shields.io/badge/Language-Compact-orange?style=for-the-badge)](https://midnight.network)
@@ -9,70 +7,147 @@
 [![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/EduRISE&root=frontend)
 [![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/zoid7r/status/2093733340386103434)
 
----
+A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
+on **Midnight**. A scholarship board publishes a public GPA and income bar;
+applicants prove — with a zero-knowledge proof, not a document upload — that
+they clear it, while their actual grades and finances never touch the ledger
+or any centralized portal.
 
-## Abstract
+> *The bar is public. The numbers behind it are not.* Every threshold in this
+> contract is disclosed on purpose. Every applicant's real GPA and income stay
+> inside the circuit — proven against, never published.
 
-EduRISE is a decentralized application (dApp) engineered on the **Midnight Network** utilizing the **Compact** smart contract language. The platform serves as a Zero-Knowledge (ZK) eligibility gate for academic scholarships. It allows students to cryptographically prove that they meet stringent academic and financial requirements (such as minimum GPA and maximum family income) without ever exposing their raw, sensitive data to centralized portals, scholarship boards, or the public blockchain ledger.
-
----
-## Official Submission Links
-
-- **Live Application (Vercel):** [Open App](https://edu-rise-sigma.vercel.app/)
-- **Deployed Contract (Midnight Preprod):** [View Contract](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
-- **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-- **Project Announcement on X:** [View Post](https://x.com/zoid7r/status/2093733340386103434)
-
----
-
-## Table of Contents
-
-1. [Official Submission Links](#official-submission-links)
-2. [Architectural Overview](#architectural-overview)
-3. [Zero-Knowledge Privacy Model](#zero-knowledge-privacy-model)
-4. [Smart Contract Implementation](#smart-contract-implementation)
-5. [Hackathon Progression (Levels 1-4)](#hackathon-progression-levels-1-4)
-6. [Project Showcase & Verification Proofs](#project-showcase--verification-proofs)
-7. [Local Development & Setup Guide](#local-development--setup-guide)
-
+**Submission:** Hackathon Level 4 (MVP Goes Live) · **Chosen idea:** Age /
+Eligibility Gate — scholarship eligibility verification without exposing
+applicant data.
 
 ---
 
-## Architectural Overview
+## 🔗 Live Demo & Contract
 
-EduRISE bridges modern web infrastructure with cutting-edge cryptographic privacy networks.
+| | |
+|---|---|
+| **Live Demo** | https://edu-rise-sigma.vercel.app/ |
+| **Deployed Contract Address** | `d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e` |
+| **Network** | Midnight Preprod |
+| **Demo Video** | [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
+| **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
 
-- **Smart Contract Layer:** Written in Compact (`scholarship.compact`), compiled to WebAssembly (WASM) and Zero-Knowledge Intermediate Representation (ZKIR). Deployed on the Midnight Preprod network.
-- **Frontend Application Layer:** Built with React, TypeScript, and Vite. Styled using a custom cyber-grid aesthetic via Tailwind CSS.
-- **Wallet Infrastructure:** Integrated with the `@midnight-ntwrk/dapp-connector-api` to interface directly with the 1AM and Lace browser extension wallets for local proof generation and transaction signing.
-- **Testing & CI/CD:** End-to-end testing utilizing Vitest and local Docker-based Midnight environments. Automated CI/CD pipelines via GitHub Actions.
-
----
-
-## Zero-Knowledge Privacy Model
-
-The core value proposition of EduRISE is absolute data privacy for applicants.
-
-### The Traditional Vulnerability
-In legacy systems, students must upload unencrypted, highly sensitive documents (tax returns, university transcripts, national IDs) to centralized databases. These databases are prime targets for data breaches, resulting in severe identity theft.
-
-### The EduRISE ZK Solution
-EduRISE eliminates the need for data transmission. Verification is entirely mathematical.
-
-1. **Public State (Ledger Data):** The scholarship board publishes the eligibility thresholds (`min_gpa` and `max_income`) to the public Midnight ledger. These values are fully transparent and verifiable by any observer.
-2. **Private Witness (User Data):** The student inputs their actual GPA and family income locally into their browser. These values are designated as "private witnesses" in the Compact circuit.
-3. **Local Proof Generation:** The student's browser wallet runs a localized Zero-Knowledge circuit. It checks if the private witness data satisfies the public state thresholds.
-4. **On-Chain Verification:** The wallet submits a cryptographic proof to the Midnight blockchain. The network validators verify the math without ever seeing the underlying private inputs.
-
-**Observer Matrix:**
-- **Visible on-chain:** The scholarship thresholds, the user's public address, the fact that a valid proof was submitted.
-- **Hidden permanently:** The student's actual GPA, their family's actual income, and the margin by which they exceeded or missed the threshold.
+<img width="1916" height="885" alt="EduRISE UI" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
 
 ---
 
-## Smart Contract Implementation
+## 💡 Product proposal — Age / Eligibility Gate
 
-The Compact contract (`contracts/scholarship.compact`) is designed for maximum security and data minimization.
+**Chosen from the provided idea list: _Age / Eligibility Gate — scholarship
+eligibility verification without exposing applicant data._**
+
+### The problem
+
+Scholarship programs need two properties that today get traded against each
+other:
+
+1. **Eligibility must be verifiable.** The board needs confidence that only
+   applicants who genuinely clear the GPA and income bar are approved.
+2. **Applicant data must stay private.** GPA and household income are
+   sensitive, and students shouldn't have to hand them over to be considered.
+
+Legacy scholarship portals resolve this by making students upload unencrypted
+transcripts, tax returns, and national IDs to a centralized database — turning
+every applicant's most sensitive records into a single breach target and a
+standing identity-theft risk.
+
+### The solution
+
+EduRISE removes the document upload entirely. Verification happens
+mathematically, in four steps:
+
+1. **Public state.** The scholarship board publishes `min_gpa` and
+   `max_income` to the Midnight ledger — fully transparent thresholds anyone
+   can check.
+2. **Private witness.** The applicant enters their real GPA and income
+   locally, in their own browser. These values are circuit inputs, never
+   transmitted anywhere.
+3. **Local proof generation.** The wallet runs the Compact circuit locally,
+   checking the private inputs against the public thresholds.
+4. **On-chain verification.** The wallet submits a proof. Validators confirm
+   the math holds — without ever seeing the GPA or income that produced it.
+
+### Scope of this submission
+
+| In scope (built) | Out of scope (deliberately) |
+|---|---|
+| Single scholarship program (one GPA + one income threshold) | Multiple concurrent scholarship programs or tiers |
+| Public `min_gpa` / `max_income` set once, at deploy (constructor) | Runtime threshold updates or board admin controls |
+| Local ZK proof that self-reported GPA/income clears the bar | Attesting that the GPA/income figures themselves are truthful |
+| Wallet-based proof submission (1AM / Lace) | Selective disclosure of *how much* an applicant cleared a threshold by |
+| Browser dApp: connect wallet, submit proof, see accept/reject | Automatic scholarship disbursement or payment flow |
+
+**The honest limitation:** this contract proves *"the numbers I typed in
+satisfy the board's criteria,"* not *"my real GPA and income satisfy the
+board's criteria."* Nothing in the circuit binds the `gpa` and `income`
+witnesses to an authoritative source — a university registrar, a tax
+authority, a signed credential. As built, that binding doesn't exist, so a
+self-reported figure and a verified one look identical to the contract. Adding
+it is the natural next milestone: accept a signed attestation (a verifiable
+credential from a university or income-verification issuer) as an additional
+private input, and have the circuit check its signature before checking the
+threshold. The public/private split this repo already enforces is exactly
+what that upgrade builds on top of.
+
+### Who it is for, next
+
+The eventual product is *"apply to any scholarship without uploading a single
+document, and get a provably fair yes or no."* The contract in this repo is
+that product's trust anchor; the web app in this repo is its first usable
+surface.
+
+---
+
+## 🔒 Privacy model — what an observer can and cannot learn
+
+### Threat model
+
+The observer here is **anyone with full read access to the Midnight ledger and
+indexer** — including the scholarship board that set the thresholds and
+reviews applications.
+
+### What the observer CAN learn
+
+| Visible | Why it is visible |
+|---|---|
+| The public thresholds, `min_gpa` and `max_income` | Published via `disclose()` in the constructor |
+| That a given wallet submitted an eligibility proof | Proof submission is a public transaction |
+| Whether that proof was **accepted or rejected** | Transaction success/failure is on-chain |
+| **When** a proof was submitted (block height / time) | Transactions are timestamped on a public chain |
+
+### What the observer CANNOT learn
+
+| Hidden | Why it stays hidden |
+|---|---|
+| The applicant's **actual GPA** | Passed as a circuit parameter, never wrapped in `disclose()` |
+| The applicant's **actual family income** | Same — it never leaves the local proving step |
+| **By how much** an applicant cleared or missed a threshold | The circuit only asserts pass/fail; the margin is never computed for the ledger |
+| The **source document** behind the GPA/income figures | Not part of the circuit at all — nothing is uploaded |
+
+### Where the privacy actually ends
+
+- **A rejected proof is still visible as a rejection.** The contract does not
+  hide *that* an applicant failed to clear the bar, only *why* and *by how
+  much*. Anyone watching the chain can see a wallet's proof attempt failed.
+- **The submitting wallet address is public.** GPA and income stay hidden, but
+  eligibility is still linked to whichever wallet address submitted the
+  proof — this contract anonymizes the *numbers*, not the *applicant's
+  address*.
+- **Self-reported inputs are only as honest as the applicant.** As noted
+  above, nothing yet binds `gpa`/`income` to a signed, authoritative source.
+- **The private inputs are only as private as the browser holding them.**
+  Local proof generation means device compromise is data compromise.
+
+### The disclosure decision in code
+
+Everything public is public because a `disclose()` call put it there — see
+[`contracts/scholarship.compact`](contracts/scholarship.compact):
 
 ```compact
 pragma language_version >=0.22.0;
@@ -94,93 +169,205 @@ export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
 }
 ```
 
----
-
-## Hackathon Progression (Levels 1-4)
-
-This repository fulfills the strict progression requirements of the "New Moon to Full" Midnight Builder Journey.
-
-### Level 1: Setup & First Contract
-- **Objective:** Establish the WSL2/Docker toolchain, write the foundational Compact contract, and document the product proposal (Age / Eligibility Gate).
-- **Status:** Complete. The contract successfully compiles, generating the required `zkir` and `bzkir` proving artifacts.
-
-### Level 2: Frontend Integration
-- **Objective:** Develop a robust frontend interface and establish wallet connectivity.
-- **Status:** Complete. The application successfully interfaces with the 1AM wallet via the Midnight DApp Connector API.
-- **Deployed Contract Address (Preprod):**
-  [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
-
-### Level 3: Production-Grade dApp
-- **Objective:** Implement automated testing, Continuous Integration (CI/CD), and a polished user interface.
-- **Status:** Complete. Vitest suites assert both successful verification and expected failure modes. GitHub Actions workflows automatically test the contract on every push.
-
-### Level 4: MVP Goes Live
-- **Objective:** Deploy the frontend to a production CDN, finalize documentation, and establish a public brand presence.
-- **Status:** Complete.
-  - **Live Application:** [https://edu-rise-sigma.vercel.app/](https://edu-rise-sigma.vercel.app/)
-  - **Deployed Contract (Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
-  - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-  - **Public Brand Presence:** YOURNAME
+| Value | Domain | On-chain? | Why |
+|-------|--------|-----------|-----|
+| `initial_min_gpa` / `initial_max_income` | disclosed at deploy | ✅ | The board's criteria are meant to be public |
+| `gpa` / `income` (circuit params) | **private witness** | ❌ never | No `disclose()` call — they stay shielded |
+| `min_gpa` / `max_income` (ledger) | public ledger | ✅ | The auditable, board-set bar |
 
 ---
 
-## Project Showcase & Verification Proofs
+## 🧪 Testing
 
-### User Interface
-<img width="1916" height="885" alt="Screenshot 2026-08-29 214126" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
+The contract's verification logic is covered by a Vitest suite run against a
+local Midnight network, exercising both the success path and the expected
+failure modes.
 
-### CI/CD Pipeline
-<img width="1914" height="871" alt="image" src="https://github.com/user-attachments/assets/6a36a525-b036-478e-acc8-c4603827ce37" />
+```bash
+yarn env:up        # start local indexer + proof-server + node (Docker)
+yarn test:local     # run the Vitest suite
+yarn env:down       # tear down the local Midnight network
+```
 
-### Contract Compilation Artifacts
-![Successful Compilation](./sub%20assets/yarn%20compile%20ss.png)
+Based on the circuit's two `assert` statements, the suite is described as
+covering:
 
-### Automated Test Suite Execution
-![Passing Tests](./sub%20assets/test%20output.png)
+| Case | Asserts |
+|---|---|
+| Eligible applicant | A proof is accepted when `gpa >= min_gpa` **and** `income <= max_income` |
+| Ineligible on GPA | `assert(gpa >= min_gpa, ...)` rejects a proof when GPA is below the threshold |
+| Ineligible on income | `assert(income <= max_income, ...)` rejects a proof when income is above the threshold |
+
+> This document doesn't have the exact test count or file paths on hand — run
+> `yarn test:local`, or check the CI run linked above, for the current
+> pass/fail count.
 
 ---
 
-## Local Development & Setup Guide
+## ⚙️ CI/CD
 
-For developers and auditors wishing to verify the Zero-Knowledge circuits and run the application locally, please follow these instructions carefully.
+[![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)
 
-### 1. System Requirements
-- **OS:** Windows Subsystem for Linux 2 (WSL2 - Ubuntu 24.04/26.04) or native Linux/macOS.
-- **Containerization:** Docker Desktop with WSL2 integration enabled.
-- **Runtime:** Node.js (v22.0.0 or higher) and Yarn package manager.
+[`.github/workflows/ci.yaml`](.github/workflows/ci.yaml) automatically
+compiles and tests the contract on every push (the Level 3 milestone below).
+Mirroring the commands used for local development, the pipeline covers:
 
-### 2. Dependency Initialization
-Clone the repository and install the workspace dependencies from the root directory:
+| Step | Command |
+|---|---|
+| Install dependencies | `yarn install` |
+| Compile Compact contract → ZKIR / WASM | `yarn compile` |
+| Start local Midnight network (indexer, proof-server, node) | `yarn env:up` |
+| Run Vitest suite | `yarn test:local` |
+| Tear down local network | `yarn env:down` |
+
+> Check the workflow file itself for the exact, current step order — this
+> table reflects the commands documented in this README's setup guide, not a
+> line-by-line read of the YAML.
+
+**CD:** the frontend deploys to Vercel — the badge above is a one-click deploy
+using `frontend` as the project root.
+
+---
+
+## 🗂 Repository layout
+
+```
+.
+├── .github/workflows/ci.yaml       # CI: compile contract → local network → tests
+├── contracts/
+│   ├── scholarship.compact         # THE CONTRACT — public thresholds, private witnesses
+│   └── managed/scholarship/        # GENERATED: WASM, ZKIR, prover/verifier keys, TS bindings
+├── frontend/                       # React + TypeScript + Vite dApp (cyber-grid Tailwind UI)
+│   └── ...                         # wallet connector (1AM / Lace), eligibility UI
+├── sub assets/                     # Screenshots referenced in this README
+└── package.json / yarn.lock        # Root workspace
+```
+
+---
+
+## 🧩 How the privacy model is implemented
+
+### Public ledger state (visible on-chain to everyone)
+
+```compact
+export ledger min_gpa: Uint<32>;
+export ledger max_income: Uint<32>;
+```
+
+Set once, at deploy, via the constructor's two `disclose()` calls — the
+board's criteria, published for anyone to audit.
+
+### Private circuit inputs (never leave the applicant's browser)
+
+```compact
+export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
+    assert(gpa >= min_gpa, "GPA does not meet minimum requirement");
+    assert(income <= max_income, "Income exceeds maximum threshold");
+}
+```
+
+`gpa` and `income` are supplied locally at proving time and are never wrapped
+in `disclose()`. Per the Compact security model, only the pass/fail result of
+the two `assert`s is ever meaningful on-chain — the values themselves are not.
+
+### Proving happens in the wallet
+
+The `@midnight-ntwrk/dapp-connector-api` integration hands the circuit and
+witness values to the **1AM** or **Lace** browser extension, which builds the
+proof, balances the transaction, and submits it — the frontend itself never
+sees a raw proof server.
+
+---
+
+## 🛠 Prerequisites
+
+| Tool | Version used | Notes |
+|------|--------------|-------|
+| OS | WSL2 (Ubuntu 24.04/26.04) or native Linux/macOS | |
+| Docker | Docker Desktop, WSL2 integration enabled | runs the local indexer, proof-server, and node |
+| Node.js | v22.0.0+ | |
+| Yarn | latest | root workspace package manager |
+| npm | — | used inside `frontend/` |
+| 1AM / Lace wallet | Midnight-compatible browser extension | set to Local or Preprod |
+
+---
+
+## 🚀 Run locally
+
+### 1. Install dependencies
+
 ```bash
 git clone https://github.com/YOURNAME/EduRISE.git
 cd EduRISE
 yarn install
 ```
 
-### 3. Smart Contract Compilation
-Compile the Compact zero-knowledge circuits into intermediate representation and generate the strictly-typed TypeScript interfaces:
+### 2. Compile the Compact contract → ZK circuits
+
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 yarn compile
 ```
-*Note: This command populates the `contracts/managed/scholarship/` directory with the necessary prover keys and API definitions.*
 
-### 4. Running the Local Midnight Network and Test Suite
-To run the automated tests, you must initialize the local Midnight Docker network (which spins up a local indexer, proof-server, and blockchain node):
+Populates `contracts/managed/scholarship/` with the prover/verifier keys and
+typed TypeScript API bindings.
+
+### 3. Run the local Midnight network and test suite
+
 ```bash
 yarn env:up
 yarn test:local
 ```
-Once testing is complete, gracefully terminate the Docker instances to free up system resources:
+
+When finished, tear the local network back down:
+
 ```bash
 yarn env:down
 ```
 
-### 5. Running the Frontend Application
-To run the React frontend locally and interact with the smart contract:
+### 4. Run the frontend
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Navigate to `http://localhost:5173`. You must have the **1AM wallet** browser extension installed and configured to the appropriate network (Local or Preprod) to interact with the application.
+
+Opens at `http://localhost:5173`. Requires the **1AM wallet** browser
+extension, configured to Local or Preprod, to connect and submit a proof.
+
+---
+
+## ✅ Hackathon progression checklist (Levels 1–4)
+
+- [x] **Level 1 — Setup & First Contract**: WSL2/Docker toolchain, foundational
+      Compact contract, product proposal documented (Age / Eligibility Gate);
+      contract compiles and generates `zkir`/`bzkir` artifacts
+- [x] **Level 2 — Frontend Integration**: dApp connects to the 1AM wallet via
+      the Midnight DApp Connector API; contract deployed to Preprod —
+      [`d13aabcf...a3287e`](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
+- [x] **Level 3 — Production-Grade dApp**: Vitest suites assert both success
+      and expected failure modes; GitHub Actions tests the contract on every
+      push
+- [x] **Level 4 — MVP Goes Live**: frontend deployed to Vercel, demo video
+      recorded, public brand presence established
+- **Live Application:** https://edu-rise-sigma.vercel.app/
+- **Demo Video:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
+
+---
+
+## 🔎 Contract metadata
+
+From `contracts/scholarship.compact`:
+
+- **language-version:** `>=0.22.0`
+- **circuits:** `verify_eligibility(gpa: Uint<32>, income: Uint<32>)` — proof-generating, no `disclose()` on its inputs
+- **constructor:** `constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>)` — discloses both thresholds
+- **ledger:** `min_gpa: Uint<32>`, `max_income: Uint<32>`
+
+---
+
+## 📜 License
+
+Not specified in this repository at the time of writing. Add a `LICENSE` file
+to state the terms under which this code may be reused.

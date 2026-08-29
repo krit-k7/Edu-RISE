@@ -11,7 +11,7 @@ export default function Footer() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <Link to="/" className="flex items-center gap-xs" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#fff' }}>
             <Shield className="text-accent" size={24} style={{ color: 'var(--accent-color)' }} />
-            <span className="font-bold text-lg" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>ScholarShield</span>
+            <span className="font-bold text-lg" style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>EDURISE</span>
           </Link>
           <p className="text-secondary text-sm" style={{ fontSize: '0.9rem', color: '#888' }}>
             Privacy-preserving eligibility verification built on the Midnight Network using Zero-Knowledge proofs.
@@ -58,7 +58,7 @@ export default function Footer() {
 
       <div style={{ borderTop: '1px solid #1a1a1a', marginTop: '3rem', paddingTop: '1.5rem', textAlign: 'center' }}>
         <p style={{ color: '#666', fontSize: '0.85rem' }}>
-          &copy; {new Date().getFullYear()} ScholarShield. Built for the New Moon to Full Hackathon.
+          &copy; {new Date().getFullYear()} EDURISE. Built for the New Moon to Full Hackathon.
         </p>
       </div>
     </footer>

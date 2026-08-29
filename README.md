@@ -127,12 +127,10 @@ This repository fulfills the strict progression requirements of the "New Moon to
 ## Project Showcase & Verification Proofs
 
 ### User Interface
-![UI Screenshot 1](./sub%20assets/ui1.png)
-![UI Screenshot 2](./sub%20assets/ui2.png)
-![UI Screenshot 3](./sub%20assets/ui3.png)
+<img width="1916" height="885" alt="Screenshot 2026-08-29 214126" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
 
 ### CI/CD Pipeline
-![CI/CD Pipeline](./sub%20assets/cicd%20ss.png)
+<img width="1914" height="871" alt="image" src="https://github.com/user-attachments/assets/6a36a525-b036-478e-acc8-c4603827ce37" />
 
 ### Contract Compilation Artifacts
 ![Successful Compilation](./sub%20assets/yarn%20compile%20ss.png)

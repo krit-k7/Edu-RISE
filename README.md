@@ -7,8 +7,8 @@
 [![Midnight Network](https://img.shields.io/badge/Network-Midnight-blueviolet?style=for-the-badge)](https://midnight.network)
 [![Language](https://img.shields.io/badge/Language-Compact-orange?style=for-the-badge)](https://midnight.network)
 [![Tested With](https://img.shields.io/badge/Tested%20With-Vitest-yellow?style=for-the-badge)](https://vitest.dev)
-[![CI](https://github.com/YOURNAME/EduRISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/YOURNAME/EduRISE/actions/workflows/ci.yaml)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/YOURNAME/EduRISE&root=frontend)
+[![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)
+[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/EduRISE&root=frontend)
 
 ---
 
@@ -32,10 +32,9 @@ EduRISE is a decentralized application (dApp) engineered on the **Midnight Netwo
 
 ## Official Submission Links
 
-- **Live Application (Vercel):** [https://scholar-shield-ten.vercel.app/](https://scholar-shield-ten.vercel.app/)
+- **Live Application (Vercel):** [https://edu-rise-sigma.vercel.app/](https://edu-rise-sigma.vercel.app/)
 - **Deployed Contract (Midnight Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
 - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-- **Public Brand Presence:** YOURNAME
 
 ---
 
@@ -118,7 +117,7 @@ This repository fulfills the strict progression requirements of the "New Moon to
 ### Level 4: MVP Goes Live
 - **Objective:** Deploy the frontend to a production CDN, finalize documentation, and establish a public brand presence.
 - **Status:** Complete.
-  - **Live Application:** [https://scholar-shield-ten.vercel.app/](https://scholar-shield-ten.vercel.app/)
+  - **Live Application:** [https://edu-rise-sigma.vercel.app/](https://edu-rise-sigma.vercel.app/)
   - **Deployed Contract (Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
   - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
   - **Public Brand Presence:** YOURNAME

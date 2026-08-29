@@ -93,9 +93,9 @@ export default function VerifyPage() {
   if (!isConnected) {
     return (
       <div className="page-container flex-center">
-        <div className="card text-center max-w-md mx-auto">
+        <div className="card text-center max-w-md mx-auto border-accent">
           <LockCircleIcon />
-          <h2 className="title-md">Connect Wallet</h2>
+          <h2 className="title-md mb-sm">Connect Wallet</h2>
           <p className="text-secondary mb-lg">
             You must connect your 1AM or Lace wallet on the Preprod network to verify your eligibility.
           </p>
@@ -108,8 +108,8 @@ export default function VerifyPage() {
     return (
       <div className="page-container flex-center">
         <div className="card text-center max-w-md mx-auto">
-          <AlertCircle size={48} className="text-warning mx-auto mb-md" />
-          <h2 className="title-md">Contract Not Deployed</h2>
+          <AlertCircle size={44} className="text-warning mx-auto mb-md" />
+          <h2 className="title-md mb-sm">Contract Not Deployed</h2>
           <p className="text-secondary mb-lg">
             Please ask an administrator to deploy the contract via the Admin portal first.
           </p>
@@ -122,7 +122,8 @@ export default function VerifyPage() {
     <div className="page-container">
       <div className="max-w-3xl mx-auto">
         <div className="mb-xl">
-          <h1 className="title-lg mb-sm">Verify Eligibility</h1>
+          <span className="eyebrow mb-sm" style={{ display: 'inline-flex' }}>Eligibility Circuit</span>
+          <h1 className="title-lg mb-sm" style={{ marginTop: '0.5rem' }}>Verify Eligibility</h1>
           <p className="text-secondary">Provide your private credentials below to generate a zero-knowledge proof.</p>
         </div>
 
@@ -142,7 +143,7 @@ export default function VerifyPage() {
 
           <div className="form-grid mb-lg">
             <div className="input-group">
-              <label htmlFor="input-gpa">Your GPA</label>
+              <label htmlFor="input-gpa">Your GPA <span className="tag-private" style={{ color: 'var(--verify-500)' }}>· Private</span></label>
               <input
                 id="input-gpa"
                 type="number"
@@ -158,7 +159,7 @@ export default function VerifyPage() {
               <div className="text-secondary mt-xs" style={{ fontSize: '0.8rem' }}>Enter a value between 0.0 and 10.0</div>
             </div>
             <div className="input-group">
-              <label htmlFor="input-income">Annual Family Income (₹)</label>
+              <label htmlFor="input-income">Annual Family Income (₹) <span className="tag-private" style={{ color: 'var(--verify-500)' }}>· Private</span></label>
               <input
                 id="input-income"
                 type="number"
@@ -257,8 +258,11 @@ export default function VerifyPage() {
 
 function LockCircleIcon() {
   return (
-    <div className="mx-auto mb-md" style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--surface-light)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <AlertCircle size={32} className="text-secondary" />
+    <div
+      className="mx-auto mb-md seal-mark"
+      style={{ width: 64, height: 64 }}
+    >
+      <AlertCircle size={26} color="var(--gold-500)" />
     </div>
   );
 }

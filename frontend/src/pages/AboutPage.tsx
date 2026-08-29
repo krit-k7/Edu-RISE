@@ -13,7 +13,7 @@ export default function AboutPage() {
           transition={{ duration: 0.5 }}
         >
           <Shield size={48} className="text-accent mx-auto mb-md" />
-          <h1 className="title-lg mb-sm">About ScholarShield</h1>
+          <h1 className="title-lg mb-sm">About EDURISE</h1>
           <p className="text-secondary text-lg">
             Privacy-preserving eligibility verification built on the Midnight Network.
           </p>
@@ -47,7 +47,7 @@ export default function AboutPage() {
               <Code className="mr-sm text-accent" size={24} /> The ZK Solution
             </h2>
             <p className="text-secondary leading-relaxed mb-md">
-              ScholarShield utilizes Midnight's Zero-Knowledge (ZK) capabilities to invert this model. 
+              EDURISE utilizes Midnight's Zero-Knowledge (ZK) capabilities to invert this model. 
               Instead of sending your data to an authority, the authority's rules (the smart contract) 
               are sent to your device.
             </p>
@@ -73,7 +73,7 @@ export default function AboutPage() {
               The smart contract is written in Compact, and the frontend uses React and the Midnight.js SDK.
             </p>
             <a 
-              href="https://github.com/DeepSaha25/ScholarShield" 
+              href="https://github.com/krit-k7/Edu-RISE" 
               target="_blank" 
               rel="noreferrer" 
               className="btn btn-secondary inline-flex"

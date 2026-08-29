@@ -7,6 +7,7 @@
 [![Tested With](https://img.shields.io/badge/Tested%20With-Vitest-yellow?style=for-the-badge)](https://vitest.dev)
 [![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)
 [![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/EduRISE&root=frontend)
+[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/zoid7r/status/2093733340386103434)
 
 ---
 
@@ -30,9 +31,10 @@ EduRISE is a decentralized application (dApp) engineered on the **Midnight Netwo
 
 ## Official Submission Links
 
-- **Live Application (Vercel):** [https://edu-rise-sigma.vercel.app/](https://edu-rise-sigma.vercel.app/)
-- **Deployed Contract (Midnight Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
+- **Live Application (Vercel):** [Open App](https://edu-rise-sigma.vercel.app/)
+- **Deployed Contract (Midnight Preprod):** [View Contract](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
 - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
+- **Project Announcement on X:** [View Post](https://x.com/zoid7r/status/2093733340386103434)
 
 ---
 

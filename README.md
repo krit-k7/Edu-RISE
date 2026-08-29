@@ -297,7 +297,7 @@ sees a raw proof server.
 ### 1. Install dependencies
 
 ```bash
-git clone https://github.com/YOURNAME/EduRISE.git
+git clone https://github.com/krit-k7/Edu-RISE.git
 cd EduRISE
 yarn install
 ```

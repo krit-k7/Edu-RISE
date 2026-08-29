@@ -76,21 +76,20 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--ink-950);
+  background-color: #08070a; /* obsidian fallback, matches shader clear color */
   color: var(--text-primary);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  background-image:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(201, 162, 78, 0.035) 0px,
-      rgba(201, 162, 78, 0.035) 1px,
-      transparent 1px,
-      transparent 44px
-    ),
-    radial-gradient(ellipse 900px 500px at 15% -10%, rgba(201, 162, 78, 0.08), transparent 60%),
-    radial-gradient(ellipse 800px 600px at 100% 10%, rgba(62, 168, 127, 0.06), transparent 55%);
-  background-attachment: fixed;
+}
+
+.shader-background {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  display: block;
+  touch-action: none;
 }
 
 a {

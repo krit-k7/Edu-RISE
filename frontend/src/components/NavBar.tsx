@@ -18,7 +18,7 @@ export default function NavBar() {
       <div className="navbar-container">
         <Link to="/" className="navbar-logo">
           <Shield className="text-accent" size={28} />
-          <span>ScholarShield</span>
+          <span>EDURISE</span>
         </Link>
 
         <div className="navbar-links">

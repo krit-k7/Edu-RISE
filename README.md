@@ -1,4 +1,4 @@
-# ScholarShield
+# EduRISE
 
 **Privacy-Preserving Scholarship Verification on the Midnight Network**
 
@@ -6,15 +6,14 @@
 [![Language](https://img.shields.io/badge/Language-Compact-orange?style=for-the-badge)](https://midnight.network)
 [![Tested With](https://img.shields.io/badge/Tested%20With-Vitest-yellow?style=for-the-badge)](https://vitest.dev)
 [![State](https://img.shields.io/badge/Level-4%20Complete-success?style=for-the-badge)](#)
-[![CI](https://github.com/DeepSaha25/ScholarShield/actions/workflows/ci.yaml/badge.svg)](https://github.com/DeepSaha25/ScholarShield/actions/workflows/ci.yaml)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/DeepSaha25/ScholarShield&root=frontend)
-[![X (Twitter) Follow](https://img.shields.io/twitter/follow/georgian_deep?style=for-the-badge)](https://x.com/georgian_deep)
+[![CI](https://github.com/YOURNAME/EduRISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/YOURNAME/EduRISE/actions/workflows/ci.yaml)
+[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/YOURNAME/EduRISE&root=frontend)
 
 ---
 
 ## Abstract
 
-ScholarShield is a decentralized application (dApp) engineered on the **Midnight Network** utilizing the **Compact** smart contract language. The platform serves as a Zero-Knowledge (ZK) eligibility gate for academic scholarships. It allows students to cryptographically prove that they meet stringent academic and financial requirements (such as minimum GPA and maximum family income) without ever exposing their raw, sensitive data to centralized portals, scholarship boards, or the public blockchain ledger.
+EduRISE is a decentralized application (dApp) engineered on the **Midnight Network** utilizing the **Compact** smart contract language. The platform serves as a Zero-Knowledge (ZK) eligibility gate for academic scholarships. It allows students to cryptographically prove that they meet stringent academic and financial requirements (such as minimum GPA and maximum family income) without ever exposing their raw, sensitive data to centralized portals, scholarship boards, or the public blockchain ledger.
 
 ---
 
@@ -35,13 +34,13 @@ ScholarShield is a decentralized application (dApp) engineered on the **Midnight
 - **Live Application (Vercel):** [https://scholar-shield-ten.vercel.app/](https://scholar-shield-ten.vercel.app/)
 - **Deployed Contract (Midnight Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
 - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-- **Public Brand Presence (X Profile):** [https://x.com/georgian_deep](https://x.com/georgian_deep)
+- **Public Brand Presence:** YOURNAME
 
 ---
 
 ## Architectural Overview
 
-ScholarShield bridges modern web infrastructure with cutting-edge cryptographic privacy networks.
+EduRISE bridges modern web infrastructure with cutting-edge cryptographic privacy networks.
 
 - **Smart Contract Layer:** Written in Compact (`scholarship.compact`), compiled to WebAssembly (WASM) and Zero-Knowledge Intermediate Representation (ZKIR). Deployed on the Midnight Preprod network.
 - **Frontend Application Layer:** Built with React, TypeScript, and Vite. Styled using a custom cyber-grid aesthetic via Tailwind CSS.
@@ -52,13 +51,13 @@ ScholarShield bridges modern web infrastructure with cutting-edge cryptographic 
 
 ## Zero-Knowledge Privacy Model
 
-The core value proposition of ScholarShield is absolute data privacy for applicants. 
+The core value proposition of EduRISE is absolute data privacy for applicants.
 
 ### The Traditional Vulnerability
 In legacy systems, students must upload unencrypted, highly sensitive documents (tax returns, university transcripts, national IDs) to centralized databases. These databases are prime targets for data breaches, resulting in severe identity theft.
 
-### The ScholarShield ZK Solution
-ScholarShield eliminates the need for data transmission. Verification is entirely mathematical.
+### The EduRISE ZK Solution
+EduRISE eliminates the need for data transmission. Verification is entirely mathematical.
 
 1. **Public State (Ledger Data):** The scholarship board publishes the eligibility thresholds (`min_gpa` and `max_income`) to the public Midnight ledger. These values are fully transparent and verifiable by any observer.
 2. **Private Witness (User Data):** The student inputs their actual GPA and family income locally into their browser. These values are designated as "private witnesses" in the Compact circuit.
@@ -108,7 +107,7 @@ This repository fulfills the strict progression requirements of the "New Moon to
 ### Level 2: Frontend Integration
 - **Objective:** Develop a robust frontend interface and establish wallet connectivity.
 - **Status:** Complete. The application successfully interfaces with the 1AM wallet via the Midnight DApp Connector API.
-- **Deployed Contract Address (Preprod):** 
+- **Deployed Contract Address (Preprod):**
   [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
 
 ### Level 3: Production-Grade dApp
@@ -121,13 +120,13 @@ This repository fulfills the strict progression requirements of the "New Moon to
   - **Live Application:** [https://scholar-shield-ten.vercel.app/](https://scholar-shield-ten.vercel.app/)
   - **Deployed Contract (Preprod):** [d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e](https://preprod.midnightexplorer.com/contracts/d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e)
   - **Demo Video Presentation:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
-  - **Public Brand Presence (X Profile):** [https://x.com/georgian_deep](https://x.com/georgian_deep)
+  - **Public Brand Presence:** YOURNAME
 
 ---
 
 ## Project Showcase & Verification Proofs
 
-### User Interface 
+### User Interface
 ![UI Screenshot 1](./sub%20assets/ui1.png)
 ![UI Screenshot 2](./sub%20assets/ui2.png)
 ![UI Screenshot 3](./sub%20assets/ui3.png)
@@ -155,8 +154,8 @@ For developers and auditors wishing to verify the Zero-Knowledge circuits and ru
 ### 2. Dependency Initialization
 Clone the repository and install the workspace dependencies from the root directory:
 ```bash
-git clone https://github.com/DeepSaha25/ScholarShield.git
-cd ScholarShield
+git clone https://github.com/YOURNAME/EduRISE.git
+cd EduRISE
 yarn install
 ```
 
@@ -187,5 +186,3 @@ npm install
 npm run dev
 ```
 Navigate to `http://localhost:5173`. You must have the **1AM wallet** browser extension installed and configured to the appropriate network (Local or Preprod) to interact with the application.
-#   E d u - R I S E  
- 

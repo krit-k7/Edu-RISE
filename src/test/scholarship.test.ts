@@ -26,7 +26,6 @@ import {
   ledger,
   zkConfigPath,
 } from '../../contracts/index.js';
-
 // Required for GraphQL subscriptions in Node.js.
 // Assign WebSocket to the global object for Apollo.
  // @ts-expect-error WebSocket global assignment for apollo

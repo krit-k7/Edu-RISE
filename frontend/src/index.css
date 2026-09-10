@@ -8,7 +8,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Ink surfaces */
+  /* ---------------------------------------------------------------------
+     Ink surfaces
+     Base dark backgrounds, from near-black (950) to lighter panel (750).
+     900 has a translucent variant (alpha) plus a solid fallback.
+     --------------------------------------------------------------------- */
   --ink-950: #0a0d18;
   --ink-900: #10142380;
   --ink-900-solid: #101423;
@@ -16,54 +20,79 @@
   --ink-800: #1e2438;
   --ink-750: #262d45;
 
-  /* Paper / parchment (used sparingly for the document motif) */
+  /* ---------------------------------------------------------------------
+     Paper / parchment
+     Used sparingly — only for the transcript-card document motif.
+     --------------------------------------------------------------------- */
   --paper-100: #f4efe2;
   --paper-200: #e8e0cc;
 
-  /* Foil gold — primary accent (trust, seals, verification-in-progress) */
+  /* ---------------------------------------------------------------------
+     Foil gold — primary accent
+     Trust, seals, and "verification in progress" states.
+     --------------------------------------------------------------------- */
   --gold-300: #e6c878;
   --gold-500: #c9a24e;
   --gold-600: #a9822e;
   --gold-glow: rgba(201, 162, 78, 0.18);
 
-  /* Verified emerald — proof accepted */
+  /* ---------------------------------------------------------------------
+     Verified emerald — proof accepted / success state
+     --------------------------------------------------------------------- */
   --verify-400: #5cc9a0;
   --verify-500: #3ea87f;
   --verify-glow: rgba(62, 168, 127, 0.14);
 
-  /* Declined brick — proof rejected / error */
+  /* ---------------------------------------------------------------------
+     Declined brick — proof rejected / error state
+     --------------------------------------------------------------------- */
   --alert-400: #d97159;
   --alert-500: #c1543a;
   --alert-glow: rgba(193, 84, 58, 0.14);
 
-  /* Text */
+  /* ---------------------------------------------------------------------
+     Text colors
+     --------------------------------------------------------------------- */
   --text-primary: #f1ede3;
   --text-secondary: #9aa2b8;
   --text-muted: #616a83;
-  --text-on-gold: #201607;
+  --text-on-gold: #201607; /* for text sitting on gold-filled surfaces */
 
-  /* Borders */
+  /* ---------------------------------------------------------------------
+     Borders
+     --------------------------------------------------------------------- */
   --border-color: #262d45;
   --border-soft: #1c2236;
   --border-focus: var(--gold-500);
 
-  /* Spacing */
+  /* ---------------------------------------------------------------------
+     Spacing scale
+     --------------------------------------------------------------------- */
   --sm: 0.5rem;
   --md: 1rem;
   --lg: 1.5rem;
   --xl: 2.5rem;
 
-  /* Radii — refined, not brutalist, not bubble-soft */
+  /* ---------------------------------------------------------------------
+     Radii — refined, not brutalist, not bubble-soft
+     --------------------------------------------------------------------- */
   --radius-sm: 5px;
   --radius-md: 10px;
   --radius-lg: 18px;
 
-  /* Type */
+  /* ---------------------------------------------------------------------
+     Type
+     Display = Fraunces (serif, headings), Body = Inter, Mono = IBM Plex Mono
+     (used for data/serial/technical text, e.g. wallet addresses, labels).
+     --------------------------------------------------------------------- */
   --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ==========================================================================
+   Global Reset & Base Styles
+   ========================================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -82,6 +111,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Full-bleed animated/canvas background layer sits behind all content */
 .shader-background {
   position: fixed;
   inset: 0;
@@ -107,6 +137,10 @@ a {
   outline-offset: 2px;
 }
 
+/* ==========================================================================
+   Utility Classes
+   Small single-purpose helpers (color, text, flex, spacing, sizing).
+   ========================================================================== */
 .text-accent { color: var(--gold-500); }
 .text-secondary { color: var(--text-secondary); }
 .text-warning { color: var(--gold-300); }
@@ -158,7 +192,9 @@ a {
 .max-w-3xl { max-width: 48rem; }
 .max-w-7xl { max-width: 84rem; }
 
-/* Layout */
+/* ==========================================================================
+   Page / App Layout
+   ========================================================================== */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -183,7 +219,9 @@ a {
   min-height: 70vh;
 }
 
-/* Typography */
+/* ==========================================================================
+   Typography Components
+   ========================================================================== */
 .title-lg {
   font-family: var(--font-display);
   font-size: 2.75rem;
@@ -201,6 +239,7 @@ a {
   color: var(--text-primary);
 }
 
+/* Small mono-font label with a glowing gold dot, used above headings */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -221,7 +260,9 @@ a {
   box-shadow: 0 0 8px var(--gold-500);
 }
 
-/* NavBar */
+/* ==========================================================================
+   NavBar
+   ========================================================================== */
 .navbar {
   border-bottom: 1px solid var(--border-color);
   background: rgba(10, 13, 24, 0.85);
@@ -254,6 +295,7 @@ a {
   flex-shrink: 0;
 }
 
+/* Circular "wax seal" mark used next to the logo/wordmark */
 .seal-mark {
   width: 32px;
   height: 32px;
@@ -267,6 +309,7 @@ a {
   background: radial-gradient(circle at 35% 30%, rgba(201, 162, 78, 0.28), transparent 70%);
 }
 
+/* Dashed inner ring to sell the "embossed seal" look */
 .seal-mark::before {
   content: '';
   position: absolute;
@@ -308,7 +351,9 @@ a {
   border-bottom-color: var(--gold-500);
 }
 
-/* Buttons */
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -334,6 +379,7 @@ a {
   transform: scale(0.98);
 }
 
+/* Primary CTA — foil-gold gradient fill */
 .btn-primary {
   background: linear-gradient(180deg, var(--gold-300), var(--gold-500));
   color: var(--text-on-gold);
@@ -352,6 +398,7 @@ a {
   box-shadow: none;
 }
 
+/* Secondary CTA — outlined, transparent fill */
 .btn-secondary {
   background-color: transparent;
   color: var(--text-primary);
@@ -373,7 +420,9 @@ a {
   font-size: 0.85rem;
 }
 
-/* Cards & Surfaces */
+/* ==========================================================================
+   Cards & Surfaces
+   ========================================================================== */
 .card {
   background-color: var(--ink-900-solid);
   border: 1px solid var(--border-color);
@@ -382,18 +431,22 @@ a {
   position: relative;
 }
 
+/* Modifier: highlights a card with a gold border + inset glow */
 .border-accent {
   border-color: var(--gold-500);
   box-shadow: 0 0 0 1px rgba(201, 162, 78, 0.15) inset;
 }
 
-/* Forms */
+/* ==========================================================================
+   Forms
+   ========================================================================== */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--md);
 }
 
+/* Two-column layout once there's room */
 @media (min-width: 640px) {
   .form-grid {
     grid-template-columns: 1fr 1fr;
@@ -414,6 +467,7 @@ a {
   letter-spacing: 0.06em;
 }
 
+/* Mono-font input to reinforce the "official ledger/document" feel */
 .input-field {
   background-color: var(--ink-950);
   border: 1px solid var(--border-color);
@@ -428,7 +482,7 @@ a {
 
 .input-field::placeholder {
   color: var(--text-muted);
-  font-family: var(--font-body);
+  font-family: var(--font-body); /* placeholder text reverts to body font */
 }
 
 .input-field:focus {
@@ -442,7 +496,10 @@ a {
   cursor: not-allowed;
 }
 
-/* Rules / Display Boxes — styled as small ledger stamps */
+/* ==========================================================================
+   Rules / Display Boxes
+   Small "ledger stamp" style boxes for showing key numeric rules/values.
+   ========================================================================== */
 .rules-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -474,7 +531,10 @@ a {
   color: var(--gold-300);
 }
 
-/* Wallet Banner */
+/* ==========================================================================
+   Wallet Banner
+   Pill-shaped wallet connection indicator (address + connection state).
+   ========================================================================== */
 .wallet-pill {
   display: flex;
   align-items: center;
@@ -486,6 +546,7 @@ a {
   font-size: 0.85rem;
 }
 
+/* State: wallet is connected — border tints emerald */
 .wallet-pill.connected {
   border-color: rgba(62, 168, 127, 0.5);
 }
@@ -510,6 +571,7 @@ a {
   line-height: 1.4;
 }
 
+/* Default (disconnected) status indicator dot */
 .status-dot {
   width: 8px;
   height: 8px;
@@ -517,11 +579,13 @@ a {
   background-color: var(--text-muted);
 }
 
+/* State: connected — glowing emerald dot */
 .status-dot.connected {
   background-color: var(--verify-500);
   box-shadow: 0 0 6px var(--verify-500);
 }
 
+/* Small circular icon button (e.g. disconnect wallet) */
 .btn-icon {
   background: transparent;
   border: none;
@@ -539,7 +603,10 @@ a {
   background: var(--alert-glow);
 }
 
-/* Results */
+/* ==========================================================================
+   Result States
+   Boxes shown after an action (proof/verification) resolves.
+   ========================================================================== */
 .result-box {
   background-color: var(--ink-950);
   border: 1px solid var(--border-color);
@@ -548,18 +615,21 @@ a {
   border-radius: var(--radius-md);
 }
 
+/* Variant: success — proof verified */
 .result-box.success {
   border-color: var(--verify-500);
   color: var(--verify-400);
   background: linear-gradient(180deg, var(--verify-glow), transparent 60%), var(--ink-950);
 }
 
+/* Variant: error — proof rejected/failed */
 .result-box.error {
   border-color: var(--alert-500);
   color: var(--alert-400);
   background: linear-gradient(180deg, var(--alert-glow), transparent 60%), var(--ink-950);
 }
 
+/* Variant: warning — needs attention but not a hard failure */
 .result-box.warning {
   border-color: var(--gold-500);
   color: var(--gold-300);
@@ -579,6 +649,7 @@ a {
   color: var(--text-secondary);
 }
 
+/* Transaction hash / reference text under a result box */
 .result-tx {
   margin-top: var(--sm);
   font-family: var(--font-mono);
@@ -587,7 +658,9 @@ a {
   word-break: break-all;
 }
 
-/* Loading */
+/* ==========================================================================
+   Loading Indicators
+   ========================================================================== */
 .spinner-icon {
   animation: spin 1s linear infinite;
 }
@@ -615,6 +688,7 @@ a {
   gap: var(--xl);
 }
 
+/* --- Hero --- */
 .hero-section {
   padding: 3rem 0 1rem;
 }
@@ -629,6 +703,7 @@ a {
   padding: 0 1rem;
 }
 
+/* Stack hero content above the transcript card on narrower screens */
 @media (max-width: 900px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -655,6 +730,7 @@ a {
   color: var(--text-primary);
 }
 
+/* Emphasized word(s) within the hero title, rendered in gold italic */
 .hero-title em {
   font-style: italic;
   color: var(--gold-300);
@@ -674,7 +750,9 @@ a {
   flex-wrap: wrap;
 }
 
-/* --- Signature element: the redacted transcript + wax seal --- */
+/* --- Signature element: the redacted transcript + wax seal ---
+   Core visual metaphor of the page: a physical "paper" transcript card
+   with redaction bars over private fields, sealed with a wax stamp. */
 .transcript-card {
   background: var(--paper-100);
   color: #221c10;
@@ -684,9 +762,10 @@ a {
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(201, 162, 78, 0.25);
   max-width: 440px;
   margin: 0 auto;
-  transform: rotate(1.2deg);
+  transform: rotate(1.2deg); /* slight tilt for a "placed on a desk" feel */
 }
 
+/* Inner hairline border to mimic a printed document frame */
 .transcript-card::before {
   content: '';
   position: absolute;
@@ -748,6 +827,7 @@ a {
   letter-spacing: 0.04em;
 }
 
+/* The literal "redaction" bar standing in for hidden/private data */
 .redaction-bar {
   width: 92px;
   height: 15px;
@@ -771,6 +851,7 @@ a {
   margin-left: 0.5rem;
 }
 
+/* "Proof verified without revealing data" line beneath the transcript rows */
 .proof-line {
   margin-top: 1.1rem;
   padding-top: 0.9rem;
@@ -784,6 +865,7 @@ a {
   font-weight: 600;
 }
 
+/* Circular wax-seal stamp overlapping the bottom-right corner of the card */
 .seal-stamp {
   position: absolute;
   bottom: -22px;
@@ -815,7 +897,7 @@ a {
   margin-top: 2px;
 }
 
-/* Trust strip — ledger style */
+/* --- Trust strip — ledger style stat row --- */
 .stats-strip {
   max-width: 1000px;
   margin: 0 auto;
@@ -841,6 +923,7 @@ a {
   border-right: none;
 }
 
+/* Collapse the 3-column stat strip into stacked rows on small screens */
 @media (max-width: 640px) {
   .stats-strip-inner { grid-template-columns: 1fr; }
   .stat-cell { border-right: none; border-bottom: 1px solid var(--border-color); }
@@ -863,7 +946,7 @@ a {
   letter-spacing: 0.08em;
 }
 
-/* Features — certificate cards */
+/* --- Features — certificate-style cards --- */
 .features-section {
   max-width: 1080px;
   margin: 0 auto;
@@ -879,7 +962,7 @@ a {
 .feature-card {
   background-color: var(--ink-900-solid);
   border: 1px solid var(--border-color);
-  border-left: 3px solid var(--gold-500);
+  border-left: 3px solid var(--gold-500); /* gold spine, like a certificate ribbon */
   padding: var(--xl) var(--lg);
   border-radius: var(--radius-md);
   transition: transform 0.2s, border-color 0.2s;
@@ -909,7 +992,7 @@ a {
   line-height: 1.6;
 }
 
-/* How It Works */
+/* --- How It Works — numbered step list --- */
 .how-it-works {
   max-width: 760px;
   margin: 0 auto;
@@ -928,6 +1011,7 @@ a {
   border-bottom: none;
 }
 
+/* Circular numbered badge (1, 2, 3...) for each step */
 .step-number {
   flex-shrink: 0;
   width: 44px;
@@ -951,7 +1035,7 @@ a {
   color: var(--text-primary);
 }
 
-/* Final CTA */
+/* --- Final CTA banner --- */
 .final-cta {
   text-align: center;
   max-width: 700px;
@@ -964,6 +1048,8 @@ a {
 
 /* ==========================================================================
    Privacy Flow Viz
+   Horizontal step visualization showing data moving through the
+   privacy-preserving proof pipeline (e.g. input → proof → verify).
    ========================================================================== */
 .privacy-viz-card {
   margin-bottom: var(--xl);
@@ -1001,6 +1087,7 @@ a {
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+/* State: this is the currently-highlighted step in the flow */
 .privacy-step.active {
   border-color: var(--gold-500);
   box-shadow: 0 0 0 1px rgba(201, 162, 78, 0.2) inset, 0 8px 20px -10px var(--gold-glow);
@@ -1029,6 +1116,7 @@ a {
   color: var(--text-secondary);
 }
 
+/* Arrow/connector glyph between consecutive privacy steps */
 .step-arrow {
   color: var(--border-color);
   padding: 0 var(--sm);
@@ -1071,6 +1159,7 @@ a {
   gap: 2.5rem;
 }
 
+/* Responsive column collapse: 4 → 2 → 1 columns */
 @media (max-width: 800px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -1137,6 +1226,7 @@ a {
   gap: 0.5rem;
 }
 
+/* Small pill showing e.g. build/version info */
 .footer-version-tag {
   display: inline-block;
   margin-top: 0.75rem;

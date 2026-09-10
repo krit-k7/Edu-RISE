@@ -9,6 +9,7 @@ import VerifyPage from './pages/VerifyPage';
 import AdminPage from './pages/AdminPage';
 import AboutPage from './pages/AboutPage';
 
+
 // Main application component.
 export default function App() {
   return (

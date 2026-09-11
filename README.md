@@ -21,7 +21,7 @@ A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
 | | |
 |---|---|
 | **Live Demo** | [edu-rise-sigma.vercel.app](https://edu-rise-sigma.vercel.app/) |
-| **Deployed Contract Address** | `d13aabcf0599f9453f42637207303fb22ea0ed1f1bc8d34b56fe0f338da3287e` |
+| **Deployed Contract Address** | `5a9cd8179b54c81863309dcfacd83f8207f0fc35a1ab79cc4ff524b334c8ae1e` |
 | **Network** | Midnight Preprod |
 | **Demo Video** | [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
 | **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |

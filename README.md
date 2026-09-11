@@ -27,7 +27,8 @@ A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
 | **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
 
 
-<img width="1773" height="887" alt="aae91d2e-ec68-45c9-9bb8-119c40ee0da2" src="https://github.com/user-attachments/assets/b98366b4-3bff-46e2-a10b-333c087d3dee" />
+<img width="1918" height="978" alt="image" src="https://github.com/user-attachments/assets/11931879-763b-4e60-a8d0-3ce106acc26a" />
+
 
 
 

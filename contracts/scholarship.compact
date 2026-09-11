@@ -1,17 +1,104 @@
-pragma language_version >=0.22.0;
+pragma language_version >= 0.22;
 
-// Ledger state: holds the public criteria of the scholarship
+import CompactStandardLibrary;
+
+// -----------------------------------------------------------------------------
+// Ledger State (Public, on-chain)
+// -----------------------------------------------------------------------------
 export ledger min_gpa: Uint<32>;
 export ledger max_income: Uint<32>;
+export ledger admin: Bytes<32>; // Hash commitment of admin's identity
+export ledger nullifiers: Set<Bytes<32>>; // Prevent double claims
 
-// Constructor to initialize the rules
-constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>) {
+// Advanced Config
+export ledger application_deadline: Uint<64>; // Unix timestamp in seconds
+export ledger is_active: Boolean; // Emergency pause toggle
+export ledger max_claims: Uint<32>; // Cap on total scholarships awarded
+export ledger total_claims: Uint<32>; // Running counter of claims
+
+// -----------------------------------------------------------------------------
+// Private Witnesses (Supplied by the user off-chain)
+// -----------------------------------------------------------------------------
+struct StudentCredentials {
+    gpa: Uint<32>,
+    income: Uint<32>,
+    student_id: Bytes<32>
+}
+witness student_credentials(): StudentCredentials;
+witness admin_secret_key(): Bytes<32>;
+
+// -----------------------------------------------------------------------------
+// Constructor
+// -----------------------------------------------------------------------------
+constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>, initial_admin: Bytes<32>, deadline: Uint<64>, claim_limit: Uint<32>) {
     min_gpa = disclose(initial_min_gpa);
     max_income = disclose(initial_max_income);
+    admin = disclose(initial_admin);
+    application_deadline = disclose(deadline);
+    max_claims = disclose(claim_limit);
+    is_active = disclose(true);
+    total_claims = disclose(0);
 }
 
-// Circuit: verifies eligibility based on private credentials
-export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
-    assert(gpa >= min_gpa, "GPA too low");
-    assert(income <= max_income, "Income too high");
+// -----------------------------------------------------------------------------
+// Core Circuits (ZK proofs)
+// -----------------------------------------------------------------------------
+
+// Verifies eligibility based on private credentials without revealing them.
+export circuit verify_eligibility(): [] {
+    // 1. Contract state checks
+    assert(disclose(is_active), "Applications are currently paused");
+    assert(blockTimeLt(disclose(application_deadline)), "Application deadline has passed");
+    assert(disclose(total_claims) < disclose(max_claims), "Scholarship cap reached");
+
+    // 2. Pull private credentials from the witness
+    const creds = student_credentials();
+    
+    // 3. Enforce rules against public ledger thresholds
+    assert(creds.gpa > 0, "GPA must be greater than 0");
+    assert(creds.income > 0, "Income must be greater than 0");
+    assert(creds.gpa >= min_gpa, "GPA too low");
+    assert(creds.income <= max_income, "Income too high");
+    
+    // 4. Generate a nullifier to prevent double-claiming
+    const nul = makeNullifier(creds.student_id);
+    assert(!nullifiers.member(disclose(nul)), "Already verified");
+    
+    // 5. Record the nullifier publicly and increment claims
+    nullifiers.insert(disclose(nul));
+    total_claims = disclose((total_claims + 1) as Uint<32>);
+}
+
+// Allows the admin to update scholarship criteria.
+// Requires proof of ownership of the admin_secret_key.
+export circuit update_criteria(
+    new_min_gpa: Uint<32>, 
+    new_max_income: Uint<32>, 
+    new_deadline: Uint<64>, 
+    new_max_claims: Uint<32>, 
+    new_active_status: Boolean
+): [] {
+    const sk = admin_secret_key();
+    assert(admin == publicKey(sk), "Not authorized");
+    
+    min_gpa = disclose(new_min_gpa);
+    max_income = disclose(new_max_income);
+    application_deadline = disclose(new_deadline);
+    max_claims = disclose(new_max_claims);
+    is_active = disclose(new_active_status);
+}
+
+// -----------------------------------------------------------------------------
+// Helper Circuits
+// -----------------------------------------------------------------------------
+
+// Derives a public key hash from a secret key using a specific domain separator.
+export pure circuit publicKey(sk: Bytes<32>): Bytes<32> {
+    return persistentHash<Vector<2, Bytes<32>>>([pad(32, "scholarship:admin:v1"), sk]);
+}
+
+// Derives an anonymous nullifier from a student ID.
+// Uses a different domain separator to avoid collisions.
+export pure circuit makeNullifier(student_id: Bytes<32>): Bytes<32> {
+    return persistentHash<Vector<2, Bytes<32>>>([pad(32, "scholarship:nullifier:v1"), student_id]);
 }

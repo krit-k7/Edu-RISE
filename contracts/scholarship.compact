@@ -1,17 +1,38 @@
 pragma language_version >=0.22.0;
 
-// Ledger state: holds the public criteria of the scholarship
-export ledger min_gpa: Uint<32>;
-export ledger max_income: Uint<32>;
+import CompactStandardLibrary;
 
-// Constructor to initialize the rules
+// ============================================================
+// Scholarship Eligibility Contract
+//
+// Publishes the scholarship's eligibility criteria on-chain and lets
+// an applicant privately prove they meet them. The applicant's GPA
+// and income never appear on the ledger or in any transaction — only
+// the pass/fail result of the check is provable.
+// ============================================================
+
+// Public criteria, fixed at deployment. `sealed` tells the compiler
+// to enforce that no exported circuit can ever change these after
+// the constructor runs — instead of relying on the convention that
+// "nothing happens to touch them."
+export sealed ledger min_gpa: Uint<32>;
+export sealed ledger max_income: Uint<32>;
+
+// How many applicants have passed so far. This is aggregate public
+// information only — it reveals nothing about any individual
+// applicant's GPA or income.
+export ledger verified_count: Counter;
+
 constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>) {
     min_gpa = disclose(initial_min_gpa);
     max_income = disclose(initial_max_income);
 }
 
-// Circuit: verifies eligibility based on private credentials
+// Verifies an applicant's eligibility. `gpa` and `income` are private
+// circuit inputs — they're never disclosed or written to the ledger,
+// only the truth of these two assertions becomes part of the proof.
 export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
     assert(gpa >= min_gpa, "GPA too low");
     assert(income <= max_income, "Income too high");
+    verified_count.increment(1);
 }

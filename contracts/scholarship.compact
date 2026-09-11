@@ -1,155 +1,17 @@
-pragma language_version >= 0.22;
+pragma language_version >=0.22.0;
 
-import CompactStandardLibrary;
-
-// =============================================================================
-// EduRISE Scholarship Contract
-// -----------------------------------------------------------------------------
-// A privacy-preserving eligibility gate for academic scholarships. Students
-// prove (via a Zero-Knowledge circuit) that their GPA and family income meet
-// publicly disclosed thresholds, without ever revealing the raw values.
-// =============================================================================
-
-// -----------------------------------------------------------------------------
-// Domain separators
-// -----------------------------------------------------------------------------
-// Used to namespace hashes so that a nullifier and an admin key can never
-// collide, even if the same raw bytes were hashed under both purposes.
-const ADMIN_KEY_DOMAIN: Opaque<"string"> = "scholarship:admin:v1";
-const NULLIFIER_DOMAIN: Opaque<"string"> = "scholarship:nullifier:v1";
-
-// -----------------------------------------------------------------------------
-// Ledger State (public, on-chain)
-// -----------------------------------------------------------------------------
-
-// Eligibility thresholds, publicly visible and admin-updatable.
+// Ledger state: holds the public criteria of the scholarship
 export ledger min_gpa: Uint<32>;
 export ledger max_income: Uint<32>;
 
-// Access control: hash commitment of the admin's identity.
-export ledger admin: Bytes<32>;
-
-// Anti-replay: set of nullifiers already used, one per successful claim.
-export ledger nullifiers: Set<Bytes<32>>;
-
-// Program configuration.
-export ledger application_deadline: Uint<64>; // Unix timestamp (seconds)
-export ledger is_active: Boolean;             // Emergency pause switch
-export ledger max_claims: Uint<32>;           // Cap on total scholarships awarded
-export ledger total_claims: Uint<32>;         // Running counter of claims made
-
-// -----------------------------------------------------------------------------
-// Private Witnesses (supplied off-chain by the caller, never disclosed)
-// -----------------------------------------------------------------------------
-
-// A student's private credentials, proven against the public thresholds
-// above without ever being revealed on-chain.
-struct StudentCredentials {
-    gpa: Uint<32>,
-    income: Uint<32>,
-    student_id: Bytes<32>
-}
-
-witness student_credentials(): StudentCredentials;
-witness admin_secret_key(): Bytes<32>;
-
-// -----------------------------------------------------------------------------
-// Constructor
-// -----------------------------------------------------------------------------
-
-constructor(
-    initial_min_gpa: Uint<32>,
-    initial_max_income: Uint<32>,
-    initial_admin: Bytes<32>,
-    deadline: Uint<64>,
-    claim_limit: Uint<32>
-) {
+// Constructor to initialize the rules
+constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>) {
     min_gpa = disclose(initial_min_gpa);
     max_income = disclose(initial_max_income);
-    admin = disclose(initial_admin);
-    application_deadline = disclose(deadline);
-    max_claims = disclose(claim_limit);
-    is_active = disclose(true);
-    total_claims = disclose(0);
 }
 
-// -----------------------------------------------------------------------------
-// Core Circuits (Zero-Knowledge proofs)
-// -----------------------------------------------------------------------------
-
-// Proves that the caller's private GPA and income satisfy the current public
-// thresholds, then records a nullifier so the same student cannot claim
-// twice. Reverts (and reveals nothing) if any check fails.
-export circuit verify_eligibility(): [] {
-    assert_program_open();
-
-    const creds = student_credentials();
-    assert_credentials_valid(creds);
-    assert_meets_thresholds(creds);
-
-    const nul = makeNullifier(creds.student_id);
-    assert(!nullifiers.member(disclose(nul)), "Already verified");
-
-    nullifiers.insert(disclose(nul));
-    total_claims = disclose((total_claims + 1) as Uint<32>);
-}
-
-// Lets the admin update scholarship criteria. Requires proof of ownership of
-// the admin secret key — the key itself is never disclosed, only its
-// derived public commitment is checked against `admin`.
-export circuit update_criteria(
-    new_min_gpa: Uint<32>,
-    new_max_income: Uint<32>,
-    new_deadline: Uint<64>,
-    new_max_claims: Uint<32>,
-    new_active_status: Boolean
-): [] {
-    const sk = admin_secret_key();
-    assert(admin == publicKey(sk), "Not authorized");
-
-    min_gpa = disclose(new_min_gpa);
-    max_income = disclose(new_max_income);
-    application_deadline = disclose(new_deadline);
-    max_claims = disclose(new_max_claims);
-    is_active = disclose(new_active_status);
-}
-
-// -----------------------------------------------------------------------------
-// Internal assertion helpers
-// -----------------------------------------------------------------------------
-// Splitting `verify_eligibility` into small, named checks keeps each rule
-// independently testable and makes failures easy to trace back to a
-// specific business rule instead of one long assertion block.
-
-// Contract-level gates: is the program open for new applications at all?
-circuit assert_program_open(): [] {
-    assert(disclose(is_active), "Applications are currently paused");
-    assert(blockTimeLt(disclose(application_deadline)), "Application deadline has passed");
-    assert(disclose(total_claims) < disclose(max_claims), "Scholarship cap reached");
-}
-
-// Sanity checks on the shape of the submitted credentials.
-circuit assert_credentials_valid(creds: StudentCredentials): [] {
-    assert(creds.gpa > 0, "GPA must be greater than 0");
-    assert(creds.income > 0, "Income must be greater than 0");
-}
-
-// The actual eligibility rule: GPA high enough, income low enough.
-circuit assert_meets_thresholds(creds: StudentCredentials): [] {
-    assert(creds.gpa >= min_gpa, "GPA too low");
-    assert(creds.income <= max_income, "Income too high");
-}
-
-// -----------------------------------------------------------------------------
-// Pure helper circuits
-// -----------------------------------------------------------------------------
-
-// Derives a public-key-style commitment from an admin secret key.
-export pure circuit publicKey(sk: Bytes<32>): Bytes<32> {
-    return persistentHash<Vector<2, Bytes<32>>>([pad(32, ADMIN_KEY_DOMAIN), sk]);
-}
-
-// Derives an anonymous, unlinkable nullifier from a student ID.
-export pure circuit makeNullifier(student_id: Bytes<32>): Bytes<32> {
-    return persistentHash<Vector<2, Bytes<32>>>([pad(32, NULLIFIER_DOMAIN), student_id]);
+// Circuit: verifies eligibility based on private credentials
+export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
+    assert(gpa >= min_gpa, "GPA too low");
+    assert(income <= max_income, "Income too high");
 }

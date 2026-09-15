@@ -13,8 +13,7 @@ import CompactStandardLibrary;
 
 // Public criteria, fixed at deployment. `sealed` tells the compiler
 // to enforce that no exported circuit can ever change these after
-// the constructor runs — instead of relying on the convention that
-// "nothing happens to touch them."
+// the constructor runs.
 export sealed ledger min_gpa: Uint<32>;
 export sealed ledger max_income: Uint<32>;
 export sealed ledger min_age: Uint<32>;
@@ -43,15 +42,19 @@ constructor(
     max_income = disclose(initial_max_income);
     min_age = disclose(initial_min_age);
     max_age = disclose(initial_max_age);
+
     allowed_categories.insert(disclose(category_a));
     allowed_categories.insert(disclose(category_b));
     allowed_categories.insert(disclose(category_c));
 }
 
-// Verifies an applicant's eligibility. `gpa`, `income`, `age`, and
-// `category` are private circuit inputs — none of them are disclosed
-// or written to the ledger, only the truth of these assertions
-// becomes part of the proof.
+// ============================================================
+// Verifies an applicant's eligibility.
+//
+// GPA, income, age, and category are private circuit inputs.
+// Only the truth of the eligibility checks is proven.
+// ============================================================
+
 export circuit verify_eligibility(
     gpa: Uint<32>,
     income: Uint<32>,
@@ -60,7 +63,17 @@ export circuit verify_eligibility(
 ): [] {
     assert(gpa >= min_gpa, "GPA too low");
     assert(income <= max_income, "Income too high");
-    assert(age >= min_age && age <= max_age, "Age outside eligible range");
-    assert(allowed_categories.member(category), "Category not eligible");
+
+    // Age checks split into two simple assertions.
+    assert(age >= min_age, "Age below minimum");
+    assert(age <= max_age, "Age above maximum");
+
+    // Only the boolean membership result is disclosed,
+    // not the applicant's actual category.
+    assert(
+        disclose(allowed_categories.member(category)),
+        "Category not eligible"
+    );
+
     verified_count.increment(1);
 }

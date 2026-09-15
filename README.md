@@ -12,22 +12,25 @@ A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
 > *The bar is public. The numbers behind it are not.*
 > Every threshold in this contract is disclosed on purpose. Every applicant's real GPA and income stay inside the circuit — proven against, never published.
 
-**Submission:** Hackathon Level 4 (MVP Goes Live) · **Chosen idea:** Age / Eligibility Gate — scholarship eligibility verification without exposing applicant data.
 
 ---
 
 ## 🔗 Live Demo & Contract
 
-| | |
-|---|---|
-| **Live Demo** | [edu-rise-sigma.vercel.app](https://edu-rise-sigma.vercel.app/) |
-| **Deployed Contract Address** | `5a9cd8179b54c81863309dcfacd83f8207f0fc35a1ab79cc4ff524b334c8ae1e` |
-| **Network** | Midnight Preprod |
-| **User Feedback** | [Click here](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471) |
-| **Demo Video** | [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
-| **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
+| 🚀 **Resource** | 🔗 **Details** |
+|:---|:---|
+| 🌐 **Live Demo** | [**Edu-RISE**](https://edu-rise-sigma.vercel.app/) |
+| ⛓️ **Deployed Contract** | `5a9cd8179b54c81863309dcfacd83f8207f0fc35a1ab79cc4ff524b334c8ae1e` |
+| 🌙 **Network** | **Midnight Preprod** |
+| 💬 **User Feedback** | [**View Feedback →**](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471) |
+| 🎥 **Demo Video** | [**Watch Demo →**](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
+| ⚙️ **CI / Build Status** | [**GitHub Actions →**](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
+
+---
 
 ## September Month X post: https://x.com/edurise01/status/2099907144980295848
+
+---
 
 <img width="1920" height="872" alt="image" src="https://github.com/user-attachments/assets/3d1d1d68-e426-45cd-af41-c9f6d951f5da" />
 

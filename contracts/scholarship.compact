@@ -6,74 +6,33 @@ import CompactStandardLibrary;
 // Scholarship Eligibility Contract
 //
 // Publishes the scholarship's eligibility criteria on-chain and lets
-// an applicant privately prove they meet them. The applicant's GPA,
-// income, age, and category never appear on the ledger or in any
-// transaction — only the pass/fail result of the check is provable.
+// an applicant privately prove they meet them. The applicant's GPA
+// and income never appear on the ledger or in any transaction — only
+// the pass/fail result of the check is provable.
 // ============================================================
 
-// Public criteria, fixed at deployment. `sealed` tells the compiler
+// Public criteria, fixed at deployment. sealed tells the compiler
 // to enforce that no exported circuit can ever change these after
-// the constructor runs.
+// the constructor runs — instead of relying on the convention that
+// "nothing happens to touch them."
 export sealed ledger min_gpa: Uint<32>;
 export sealed ledger max_income: Uint<32>;
-export sealed ledger min_age: Uint<32>;
-export sealed ledger max_age: Uint<32>;
-
-// The set of category tags this scholarship accepts. Membership is
-// checked in zero knowledge — an applicant proves their category is
-// *in* this public set without revealing which one it is.
-export sealed ledger allowed_categories: Set<Bytes<32>>;
 
 // How many applicants have passed so far. This is aggregate public
 // information only — it reveals nothing about any individual
-// applicant's GPA, income, age, or category.
+// applicant's GPA or income.
 export ledger verified_count: Counter;
 
-constructor(
-    initial_min_gpa: Uint<32>,
-    initial_max_income: Uint<32>,
-    initial_min_age: Uint<32>,
-    initial_max_age: Uint<32>,
-    category_a: Bytes<32>,
-    category_b: Bytes<32>,
-    category_c: Bytes<32>
-) {
+constructor(initial_min_gpa: Uint<32>, initial_max_income: Uint<32>) {
     min_gpa = disclose(initial_min_gpa);
     max_income = disclose(initial_max_income);
-    min_age = disclose(initial_min_age);
-    max_age = disclose(initial_max_age);
-
-    allowed_categories.insert(disclose(category_a));
-    allowed_categories.insert(disclose(category_b));
-    allowed_categories.insert(disclose(category_c));
 }
 
-// ============================================================
-// Verifies an applicant's eligibility.
-//
-// GPA, income, age, and category are private circuit inputs.
-// Only the truth of the eligibility checks is proven.
-// ============================================================
-
-export circuit verify_eligibility(
-    gpa: Uint<32>,
-    income: Uint<32>,
-    age: Uint<32>,
-    category: Bytes<32>
-): [] {
+// Verifies an applicant's eligibility. gpa and income are private
+// circuit inputs — they're never disclosed or written to the ledger,
+// only the truth of these two assertions becomes part of the proof.
+export circuit verify_eligibility(gpa: Uint<32>, income: Uint<32>): [] {
     assert(gpa >= min_gpa, "GPA too low");
     assert(income <= max_income, "Income too high");
-
-    // Age checks split into two simple assertions.
-    assert(age >= min_age, "Age below minimum");
-    assert(age <= max_age, "Age above maximum");
-
-    // Only the boolean membership result is disclosed,
-    // not the applicant's actual category.
-    assert(
-        disclose(allowed_categories.member(category)),
-        "Category not eligible"
-    );
-
     verified_count.increment(1);
-}
+} 

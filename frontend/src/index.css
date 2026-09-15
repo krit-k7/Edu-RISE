@@ -219,6 +219,16 @@ a {
   min-height: 70vh;
 }
 
+/* Route-change fade/slide-in used by the App shell's PageTransition wrapper */
+.page-transition {
+  animation: pageFadeIn 0.35s ease;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ==========================================================================
    Typography Components
    ========================================================================== */
@@ -913,10 +923,36 @@ a {
   background: var(--ink-900-solid);
 }
 
+/* Stat cells: accent underline + hover highlight */
 .stat-cell {
-  padding: 1.5rem 1rem;
+  padding: 1.75rem 1rem;
   text-align: center;
   border-right: 1px solid var(--border-color);
+  position: relative;
+  transition: background 0.25s ease;
+}
+
+.stat-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: var(--gold-500);
+  opacity: 0;
+  transition: opacity 0.25s ease, width 0.25s ease;
+}
+
+.stat-cell:hover {
+  background: var(--ink-850);
+}
+
+.stat-cell:hover::before {
+  opacity: 1;
+  width: 56px;
 }
 
 .stat-cell:last-child {
@@ -932,10 +968,11 @@ a {
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 1.9rem;
+  font-size: 2.1rem;
   font-weight: 700;
   color: var(--gold-300);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
 }
 
 .stat-label {
@@ -953,29 +990,80 @@ a {
   padding: 0 1rem;
 }
 
+/* Fixed 3-col layout, no odd wrapping */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--md);
+  counter-reset: feature-counter;
 }
 
+@media (max-width: 900px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .features-grid { grid-template-columns: 1fr; }
+}
+
+/* Feature card: ghost serial number + lift-on-hover */
 .feature-card {
   background-color: var(--ink-900-solid);
   border: 1px solid var(--border-color);
   border-left: 3px solid var(--gold-500); /* gold spine, like a certificate ribbon */
   padding: var(--xl) var(--lg);
   border-radius: var(--radius-md);
-  transition: transform 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+  counter-increment: feature-counter;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.feature-card::after {
+  content: counter(feature-counter, decimal-leading-zero);
+  position: absolute;
+  top: 0.75rem;
+  right: 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--ink-800);
+  opacity: 0.6;
+  line-height: 1;
+  z-index: 0;
 }
 
 .feature-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   border-color: var(--gold-500);
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 162, 78, 0.15);
 }
 
+.feature-card h3,
+.feature-card p,
 .feature-icon {
+  position: relative;
+  z-index: 1;
+}
+
+/* Feature icon: circular badge instead of bare glyph */
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(201, 162, 78, 0.18), rgba(201, 162, 78, 0.04));
+  border: 1px solid rgba(201, 162, 78, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--gold-500);
   margin-bottom: var(--md);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.08) rotate(-4deg);
+  background: linear-gradient(135deg, rgba(201, 162, 78, 0.3), rgba(201, 162, 78, 0.08));
 }
 
 .feature-card h3 {

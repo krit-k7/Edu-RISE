@@ -26,7 +26,7 @@ A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
 | **Demo Video** | [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) |
 | **CI** | [GitHub Actions](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) |
 
-September Month X post- https://x.com/edurise01/status/2099907144980295848
+## September Month X post- https://x.com/edurise01/status/2099907144980295848
 
 <img width="1920" height="872" alt="image" src="https://github.com/user-attachments/assets/3d1d1d68-e426-45cd-af41-c9f6d951f5da" />
 

@@ -1,41 +1,44 @@
 {
-  "compiler-version": "0.31.1",
-  "language-version": "0.23.0",
-  "runtime-version": "0.16.0",
+  "compiler-version": "0.31.1", // Version of the Compact compiler
+  "language-version": "0.23.0", // Version of the Compact language
+  "runtime-version": "0.16.0", // Version of the Compact runtime
+
   "circuits": [
     {
-      "name": "storeMessage",
-      "pure": false,
-      "proof": true,
+      "name": "storeMessage", // Name of the circuit
+      "pure": false, // Circuit can modify ledger state
+      "proof": true, // Circuit requires a zero-knowledge proof
+
       "arguments": [
         {
-          "name": "newMessage",
+          "name": "newMessage", // Input message provided to the circuit
           "type": {
-            "type-name": "Opaque",
-            "tsType": "string"
+            "type-name": "Opaque", // Opaque data type
+            "tsType": "string" // TypeScript representation of the data
           }
         }
       ],
+
       "result-type": {
-        "type-name": "Tuple",
-        "types": [
-        ]
+        "type-name": "Tuple", // Circuit returns a tuple
+        "types": [] // No values are returned
       }
     }
   ],
-  "witnesses": [
-  ],
-  "contracts": [
-  ],
+
+  "witnesses": [], // No witnesses are defined
+
+  "contracts": [], // No imported or referenced contracts
+
   "ledger": [
     {
-      "name": "message",
-      "index": 0,
-      "exported": true,
-      "storage": "Cell",
+      "name": "message", // Name of the ledger state variable
+      "index": 0, // Ledger variable index
+      "exported": true, // Makes the ledger value externally accessible
+      "storage": "Cell", // Stores a single value in a ledger cell
       "type": {
-        "type-name": "Opaque",
-        "tsType": "string"
+        "type-name": "Opaque", // Stores the value as opaque data
+        "tsType": "string" // TypeScript representation of the stored value
       }
     }
   ]

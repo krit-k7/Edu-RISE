@@ -1,6 +1,6 @@
 import pino from 'pino';
 import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
-import { deployContract, type DeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
+import { deployContract } from '@midnight-ntwrk/midnight-js-contracts';
 import type { EnvironmentConfiguration } from '@midnight-ntwrk/testkit-js';
 import { getConfig } from '../src/config.js';
 import { MidnightWalletProvider, syncWallet, type WalletSecret } from '../src/wallet.js';
@@ -46,7 +46,7 @@ async function main() {
   const config = getConfig();
   setNetworkId(config.networkId);
   const secret = resolveSecret(network);
-  
+
   const envConfig: EnvironmentConfiguration = {
     walletNetworkId: config.networkId,
     networkId: config.networkId,
@@ -72,7 +72,7 @@ async function main() {
     // Initial deployment rules (GPA >= 8.0, Income <= 250,000 INR)
     const minGpa = 800n;
     const maxIncome = 250000n;
-    
+
     logger.info(`Deploying Scholarship Smart Contract to ${network}...`);
     const deployed = await deployContract<Contract>(providers, {
       compiledContract: CompiledScholarshipContract,
@@ -82,18 +82,33 @@ async function main() {
     });
 
     const address = deployed.deployTxData.public.contractAddress;
+    const deploymentTransactionId = deployed.deployTxData.public.txId;
     logger.info(`SUCCESS! Contract deployed at: ${address}`);
+    logger.info(`Deployment transaction: ${deploymentTransactionId}`);
 
-    // Save deployed address for frontend use
+    // FIX (review item 4): write a single, verifiable deployment artifact —
+    // address + the deployment *transaction id* + which network it targets —
+    // instead of a bare address-only text file. This is committed to the
+    // repo (or attached to the release) so the frontend build has something
+    // auditable to read from, rather than a value someone could edit in
+    // browser localStorage.
     const currentDir = path.dirname(fileURLToPath(import.meta.url));
-    const outputDir = path.resolve(currentDir, '..', 'contracts', 'managed');
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    fs.writeFileSync(path.resolve(outputDir, 'preprod-address.txt'), address);
-    logger.info(`Saved address to contracts/managed/preprod-address.txt`);
+    const repoRoot = path.resolve(currentDir, '..');
+    const deploymentArtifact = {
+      contractAddress: address,
+      deploymentTransactionId,
+      network,
+      deployedAt: new Date().toISOString(),
+    };
+    const outputPath = path.resolve(repoRoot, `deployment.${network}.json`);
+    fs.writeFileSync(outputPath, `${JSON.stringify(deploymentArtifact, null, 2)}\n`);
+    logger.info(`Saved verified deployment artifact to ${path.relative(repoRoot, outputPath)}`);
+    logger.info(
+      `Commit this file (or attach it to the release) — the frontend build reads it via VITE_CONTRACT_ADDRESS / frontend/src/config.ts.`,
+    );
   } catch (err: any) {
     logger.error(`Deployment failed: ${err.message || err}`);
+    process.exitCode = 1;
   } finally {
     await wallet.stop();
   }

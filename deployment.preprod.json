@@ -1,0 +1,6 @@
+{
+  "contractAddress": "5a9cd8179b54c81863309dcfacd83f8207f0fc35a1ab79cc4ff524b334c8ae1e",
+  "deploymentTransactionId": "REPLACE_WITH_REAL_DEPLOYMENT_TX_ID_FROM_scripts/deploy.ts_OUTPUT",
+  "network": "preprod",
+  "deployedAt": "REPLACE_WITH_REAL_TIMESTAMP"
+}

@@ -6,8 +6,9 @@ import { useWallet } from '../contexts/WalletContext';
 import PrivacyFlowViz from '../components/PrivacyFlowViz';
 import { CheckCircle, XCircle, AlertCircle, Loader2, ExternalLink } from 'lucide-react';
 import { PREPROD_CONTRACT_ADDRESS, MIN_GPA_THRESHOLD, MAX_INCOME_THRESHOLD } from '../config';
+import { getOrCreateApplicantSecret } from '../lib/applicantSecret';
 
-type VerifyStatus = 'idle' | 'proving' | 'submitting' | 'eligible' | 'ineligible' | 'error';
+type VerifyStatus = 'idle' | 'proving' | 'submitting' | 'eligible' | 'ineligible' | 'already-verified' | 'error';
 
 function getCompiledContract() {
   return CompiledContract.make('ScholarshipContract', Contract).pipe(
@@ -43,6 +44,7 @@ export default function VerifyPage() {
 
     const gpaScaled = BigInt(Math.round(gpaValue * 100));
     const incomeBig = BigInt(incomeValue);
+    const applicantSecret = getOrCreateApplicantSecret();
 
     setStatus('proving');
     setErrorMsg(null);
@@ -55,7 +57,7 @@ export default function VerifyPage() {
         compiledContract,
         contractAddress: PREPROD_CONTRACT_ADDRESS,
         circuitId: 'verify_eligibility',
-        args: [gpaScaled, incomeBig],
+        args: [gpaScaled, incomeBig, applicantSecret],
       });
 
       setStatus('submitting');
@@ -71,7 +73,9 @@ export default function VerifyPage() {
       setStatus(passes ? 'eligible' : 'ineligible');
     } catch (e: any) {
       const msg: string = e?.message ?? String(e);
-      if (msg.includes('GPA too low') || msg.includes('Income too high') || msg.toLowerCase().includes('assert')) {
+      if (msg.includes('already verified')) {
+        setStatus('already-verified');
+      } else if (msg.includes('GPA too low') || msg.includes('Income too high') || msg.toLowerCase().includes('assert')) {
         setStatus('ineligible');
       } else {
         setStatus('error');
@@ -104,14 +108,14 @@ export default function VerifyPage() {
     );
   }
 
-  if (PREPROD_CONTRACT_ADDRESS === 'UPDATE_WITH_YOUR_PREPROD_CONTRACT_ADDRESS') {
+  if (!PREPROD_CONTRACT_ADDRESS) {
     return (
       <div className="page-container flex-center">
         <div className="card text-center max-w-md mx-auto">
           <AlertCircle size={44} className="text-warning mx-auto mb-md" />
           <h2 className="title-md mb-sm">Contract Not Deployed</h2>
           <p className="text-secondary mb-lg">
-            Please ask an administrator to deploy the contract via the Admin portal first.
+            No verified deployment found. Please ask an administrator to run <code>yarn deploy</code> first.
           </p>
         </div>
       </div>
@@ -154,7 +158,7 @@ export default function VerifyPage() {
                 step="0.01"
                 value={gpaRaw}
                 onChange={(e) => setGpaRaw(e.target.value)}
-                disabled={isProcessing || status === 'eligible' || status === 'ineligible'}
+                disabled={isProcessing || status === 'eligible' || status === 'ineligible' || status === 'already-verified'}
               />
               <div className="text-secondary mt-xs" style={{ fontSize: '0.8rem' }}>Enter a value between 0.0 and 10.0</div>
             </div>
@@ -169,7 +173,7 @@ export default function VerifyPage() {
                 step="1000"
                 value={incomeRaw}
                 onChange={(e) => setIncomeRaw(e.target.value)}
-                disabled={isProcessing || status === 'eligible' || status === 'ineligible'}
+                disabled={isProcessing || status === 'eligible' || status === 'ineligible' || status === 'already-verified'}
               />
               <div className="text-secondary mt-xs" style={{ fontSize: '0.8rem' }}>Enter total income in INR</div>
             </div>
@@ -211,9 +215,9 @@ export default function VerifyPage() {
               <div className="result-title">Eligible for Scholarship!</div>
               <div className="result-desc mb-sm">Your ZK proof was verified on-chain. Your data remained private.</div>
               {txId && (
-                <a 
+                <a
                   href={`https://explorer.1am.xyz/tx/${txId}?network=preprod`}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary inline-flex items-center gap-xs mt-sm"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
@@ -230,9 +234,9 @@ export default function VerifyPage() {
               <div className="result-title">Not Eligible</div>
               <div className="result-desc mb-sm">Your credentials do not satisfy the thresholds. Data remained private.</div>
               {txId && (
-                <a 
+                <a
                   href={`https://explorer.1am.xyz/tx/${txId}?network=preprod`}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-secondary inline-flex items-center gap-xs mt-sm"
                   style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
@@ -240,6 +244,17 @@ export default function VerifyPage() {
                   View on Explorer <ExternalLink size={16} />
                 </a>
               )}
+            </div>
+          )}
+
+          {status === 'already-verified' && (
+            <div className="result-box warning mt-lg">
+              <AlertCircle size={32} className="mb-sm" />
+              <div className="result-title">Already Verified</div>
+              <div className="result-desc mb-sm">
+                This browser has already submitted a successful verification for this scholarship. Repeated
+                verification isn't allowed.
+              </div>
             </div>
           )}
 

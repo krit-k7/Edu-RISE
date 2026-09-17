@@ -1,4 +1,3 @@
-```jsx
 // Import React and required React hooks.
 import React, { useState, useCallback } from 'react';
 
@@ -399,4 +398,3 @@ function LockCircleIcon() {
     </div>
   );
 }
-```

@@ -70,10 +70,16 @@ export function createPatchedPublicDataProvider(queryUrl: string, subscriptionUr
 export function createPrivateStateProvider(accountId: string) {
   return levelPrivateStateProvider({
     privateStateStoreName: 'edurise-private-state',
-    // Replace with a real per-user secret (e.g. derived from the wallet
-    // session) before shipping — a constant password only protects
-    // against casual inspection, not a malicious actor with disk access.
-    privateStoragePasswordProvider: () => 'EduRISE-Browser-Password',
+    // FIX (review item 11, partial): derive the storage password from the
+    // connected wallet's own coin public key instead of a hardcoded global
+    // constant, so the on-disk store is at least wallet-specific rather
+    // than shared by every user of the app. `accountId` is public key
+    // material, not a strong secret, so this is a floor, not a ceiling —
+    // real hardening needs a password derived from something the wallet
+    // signs (a real per-user secret), which requires confirming the exact
+    // message-signing method on the connected wallet API before wiring it
+    // in here.
+    privateStoragePasswordProvider: () => `EduRISE-v1-${accountId}`,
     accountId,
   });
 }

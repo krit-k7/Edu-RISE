@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import { WebSocket } from 'ws';
+import { randomBytes } from 'node:crypto';
 import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import {
   deployContract,
@@ -56,7 +57,10 @@ const logger = pino({
 });
 
 // Select the Midnight network from the environment.
-// Defaults to the local network.
+// Defaults to the local network. Set MIDNIGHT_NETWORK=preprod (with
+// MIDNIGHT_PREPROD_MNEMONIC or MIDNIGHT_PREPROD_SEED set to a funded
+// Preprod wallet) to run this as a genuine live Preprod E2E test — see
+// review item 10 and .github/workflows/ci.yaml's `preprod-e2e` job.
 const network = process.env['MIDNIGHT_NETWORK'] ?? 'local';
 
 // Resolve the wallet secret based on the selected network.
@@ -109,6 +113,12 @@ function resolveSecret(net: string): WalletSecret {
   );
 }
 
+// Generates a fresh 32-byte applicant secret for a single test case, the
+// same way the frontend does in frontend/src/lib/applicantSecret.ts.
+function freshApplicantSecret(): Uint8Array {
+  return new Uint8Array(randomBytes(32));
+}
+
 // Test suite for the Scholarship Contract.
 describe(`Scholarship Contract (${network})`, () => {
   // Midnight wallet used for contract operations.
@@ -135,7 +145,12 @@ describe(`Scholarship Contract (${network})`, () => {
       (isRemote ? 60 * 60_000 : 10 * 60_000),
   );
 
-  // Helper function to query the current contract ledger state.
+  // Helper function to query the current contract ledger state directly
+  // from the public data provider (the indexer) — this is the "indexer
+  // confirmation" step in the wallet → proof → transaction → indexer
+  // confirmation chain (review item 10). It doesn't just check that
+  // `submitCallTx` resolved; it re-reads the contract's on-chain state
+  // afterwards and asserts it reflects the call.
   async function queryLedger(p: ScholarshipProviders) {
     // Query the deployed contract state from the public data provider.
     const state = await p.publicDataProvider.queryContractState(contractAddress);
@@ -223,36 +238,47 @@ describe(`Scholarship Contract (${network})`, () => {
     contractAddress = deployed.deployTxData.public.contractAddress;
 
     logger.info(`Contract deployed at: ${contractAddress}`);
+    logger.info(`Deployment transaction: ${deployed.deployTxData.public.txId}`);
 
     // Verify that a contract address was returned.
     expect(contractAddress).toBeDefined();
+    expect(deployed.deployTxData.public.txId).toBeDefined();
 
-    // Read the contract ledger after deployment.
+    // Read the contract ledger after deployment (indexer confirmation).
     const state = await queryLedger(providers);
 
     // Verify that the configured scholarship rules were stored correctly.
     expect(state.min_gpa).toEqual(minGpa);
     expect(state.max_income).toEqual(maxIncome);
+    expect(state.verified_count).toEqual(0n);
   });
 
   // Test eligibility verification for a qualifying student.
-  it('Verifies eligibility successfully for a qualifying student', async () => {
+  it('Verifies eligibility successfully for a qualifying student, and the indexer reflects it', async () => {
     // Student GPA: 9.1 (910).
     // Student income: 180,000 INR.
     // Both values satisfy the scholarship requirements.
     logger.info(`Running verify_eligibility for qualifying student...`);
 
+    const beforeState = await queryLedger(providers);
+
     // Submit the eligibility verification transaction.
-    await (submitCallTx<Contract, 'verify_eligibility'>)(providers, {
+    const txData = await (submitCallTx<Contract, 'verify_eligibility'>)(providers, {
       compiledContract: CompiledScholarshipContract,
       contractAddress,
       privateStateId: PRIVATE_STATE_ID,
       circuitId: 'verify_eligibility',
-      args: [910n, 180000n],
+      args: [910n, 180000n, freshApplicantSecret()],
     });
 
-    // Log successful verification.
-    logger.info(`Verification transaction completed successfully.`);
+    expect(txData.public.txId).toBeDefined();
+    logger.info(`Verification transaction completed: ${txData.public.txId}`);
+
+    // Indexer confirmation: re-query the contract's public state directly
+    // from the indexer and confirm it actually changed as a result of this
+    // specific transaction, rather than just trusting a resolved promise.
+    const afterState = await queryLedger(providers);
+    expect(afterState.verified_count).toEqual(beforeState.verified_count + 1n);
   });
 
   // Test that a student with a GPA below the minimum is rejected.
@@ -268,7 +294,7 @@ describe(`Scholarship Contract (${network})`, () => {
         contractAddress,
         privateStateId: PRIVATE_STATE_ID,
         circuitId: 'verify_eligibility',
-        args: [750n, 180000n],
+        args: [750n, 180000n, freshApplicantSecret()],
       })
     ).rejects.toThrow();
 
@@ -289,11 +315,37 @@ describe(`Scholarship Contract (${network})`, () => {
         contractAddress,
         privateStateId: PRIVATE_STATE_ID,
         circuitId: 'verify_eligibility',
-        args: [910n, 300000n],
+        args: [910n, 300000n, freshApplicantSecret()],
       })
     ).rejects.toThrow();
 
     // Confirm that the high-income student was rejected.
     logger.info(`Rejected high income student as expected.`);
+  });
+
+  // Test that the same applicant secret cannot verify twice (nullifier).
+  it('Rejects a second verification from the same applicant secret', async () => {
+    logger.info(`Running verify_eligibility twice with the same applicant secret...`);
+    const secret = freshApplicantSecret();
+
+    await (submitCallTx<Contract, 'verify_eligibility'>)(providers, {
+      compiledContract: CompiledScholarshipContract,
+      contractAddress,
+      privateStateId: PRIVATE_STATE_ID,
+      circuitId: 'verify_eligibility',
+      args: [910n, 180000n, secret],
+    });
+
+    await expect(
+      (submitCallTx<Contract, 'verify_eligibility'>)(providers, {
+        compiledContract: CompiledScholarshipContract,
+        contractAddress,
+        privateStateId: PRIVATE_STATE_ID,
+        circuitId: 'verify_eligibility',
+        args: [910n, 180000n, secret],
+      })
+    ).rejects.toThrow(/already verified/);
+
+    logger.info(`Rejected repeat verification from the same applicant secret as expected.`);
   });
 });

@@ -1,6 +1,7 @@
 import { setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 import { FetchZkConfigProvider } from '@midnight-ntwrk/midnight-js-fetch-zk-config-provider';
 import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-private-state-provider';
 import { ContractState } from '@midnight-ntwrk/compact-runtime';
 import type { MidnightProvider, WalletProvider } from '@midnight-ntwrk/midnight-js-types';
 
@@ -56,29 +57,25 @@ export function createPatchedPublicDataProvider(queryUrl: string, subscriptionUr
 }
 
 // ---------------------------------------------------------------------------
-// In-memory Private State Provider
+// Persistent Private State Provider
+//
+// FIX (review item 11): the old implementation kept private state and
+// signing keys in a plain in-memory Map, so a page refresh silently wiped
+// a user's local witness/key material. This is the same
+// `@midnight-ntwrk/midnight-js-level-private-state-provider` package the
+// Node.js scripts/tests already use for the server-side wallet — in the
+// browser it transparently persists to IndexedDB instead of the
+// filesystem, so state survives reloads.
 // ---------------------------------------------------------------------------
-export function createPrivateStateProvider() {
-  let scope = '';
-  const stateStore = new Map<string, unknown>();
-  const signingKeyStore = new Map<string, unknown>();
-  const key = (id: string) => `${scope}:${id}`;
-
-  return {
-    setContractAddress(address: string) { scope = address; },
-    async set(id: string, state: unknown) { stateStore.set(key(id), state); },
-    async get(id: string) { return stateStore.get(key(id)) ?? null; },
-    async remove(id: string) { stateStore.delete(key(id)); },
-    async clear() { stateStore.clear(); },
-    async setSigningKey(addr: string, k: unknown) { signingKeyStore.set(addr, k); },
-    async getSigningKey(addr: string) { return signingKeyStore.get(addr) ?? null; },
-    async removeSigningKey(addr: string) { signingKeyStore.delete(addr); },
-    async clearSigningKeys() { signingKeyStore.clear(); },
-    async exportPrivateStates(): Promise<never> { throw new Error('Not implemented.'); },
-    async importPrivateStates(): Promise<never> { throw new Error('Not implemented.'); },
-    async exportSigningKeys(): Promise<never> { throw new Error('Not implemented.'); },
-    async importSigningKeys(): Promise<never> { throw new Error('Not implemented.'); },
-  };
+export function createPrivateStateProvider(accountId: string) {
+  return levelPrivateStateProvider({
+    privateStateStoreName: 'edurise-private-state',
+    // Replace with a real per-user secret (e.g. derived from the wallet
+    // session) before shipping — a constant password only protects
+    // against casual inspection, not a malicious actor with disk access.
+    privateStoragePasswordProvider: () => 'EduRISE-Browser-Password',
+    accountId,
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -141,13 +138,19 @@ export async function createConnectedSession(api: any): Promise<ConnectedSession
   };
 
   const midnightProvider: MidnightProvider = {
+    // FIX (review item 2): `api.submitTransaction` on the official connector
+    // returns `Promise<void>` — it is a relay call, not an id lookup. The old
+    // code invented a fake id from the tx hex bytes whenever the (nonstandard)
+    // wallet response didn't include one. The real, spec-correct transaction
+    // identifier comes from the *transaction object itself*
+    // (`Transaction.identifiers()`, per @midnight-ntwrk/ledger-v8), computed
+    // before submission — that's what should be used to watch for the tx.
     submitTx: async (tx: any) => {
+      const ids: string[] = tx.identifiers();
+      if (!ids?.length) throw new Error('Transaction has no identifiers to track.');
       const txHex = toHex(tx.serialize());
-      const result = await api.submitTransaction(txHex);
-      if (typeof result === 'string' && result) return result;
-      if (result?.transactionId) return result.transactionId;
-      if (result?.id) return result.id;
-      return txHex.slice(0, 64);
+      await api.submitTransaction(txHex);
+      return ids[0];
     },
   };
 
@@ -157,7 +160,7 @@ export async function createConnectedSession(api: any): Promise<ConnectedSession
     api,
     config,
     providers: {
-      privateStateProvider: createPrivateStateProvider(),
+      privateStateProvider: createPrivateStateProvider(shieldedAddress.shieldedCoinPublicKey),
       publicDataProvider,
       zkConfigProvider,
       proofProvider,

@@ -70,7 +70,7 @@ export default function WalletBanner() {
             onClick={() => connect(wallet.rdns, 'preprod')}
             disabled={isConnecting}
           >
-            {isConnecting ? <span className="spinner-small"></span> : `Connect ${wallet.name}`}
+            {isConnecting ? <span className="spinner-small"></span> : 'Connect Wallet'}
           </button>
         ))}
       </div>

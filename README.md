@@ -41,7 +41,8 @@ A privacy-first scholarship-eligibility dApp built with **Compact** and deployed
 
 
 
-<img width="1916" height="885" alt="Edu-Rise UI" src="https://github.com/user-attachments/assets/f14f6e7a-e15d-4d4c-880b-7a0e57f060d6" />
+<img width="1913" height="882" alt="image" src="https://github.com/user-attachments/assets/57cfe4f4-2b42-4552-aba0-7fb9f6f49528" />
+
 
 ---
 

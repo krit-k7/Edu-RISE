@@ -9,8 +9,10 @@
 
 A privacy-first scholarship-eligibility dApp built with **Compact** and deployed on **Midnight**. A scholarship board publishes a public GPA and income bar; applicants prove — with a zero-knowledge proof, not a document upload — that they clear it, while their actual grades and finances never touch the ledger or any centralized portal.
 
+
 > *The bar is public. The numbers behind it are not.*
 > Every threshold in this contract is disclosed on purpose. Every applicant's real GPA and income stay inside the circuit — proven against, never published.
+
 
 
 ---

@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Code2, Globe, Mail, Check } from 'lucide-react';
+import { Code2, Globe, Mail, Check, Copy } from 'lucide-react';
+
+// Single source of truth for the deployed contract (also picks up the
+// localStorage override that the Admin Portal sets after a fresh deploy).
+import { PREPROD_CONTRACT_ADDRESS } from '../config';
 
 export default function Footer() {
+  const [copied, setCopied] = useState(false);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear any pending "Copied" reset when the footer unmounts.
+  useEffect(() => {
+    return () => {
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+    };
+  }, []);
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(PREPROD_CONTRACT_ADDRESS);
+      setCopied(true);
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+      resetTimer.current = setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard can be unavailable (insecure context / denied permission).
+      // Fail silently rather than claiming "Copied" when nothing was copied.
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-grid">
@@ -54,6 +80,31 @@ export default function Footer() {
             <span className="text-secondary text-sm">Preprod Live</span>
           </div>
           <span className="footer-version-tag">v1.0.0</span>
+
+          {/* Deployed contract address — click the box or "Copy" to copy it */}
+          <div className="footer-contract">
+            <div className="footer-contract-head">
+              <span className="footer-contract-label">Contract Address</span>
+              <button
+                type="button"
+                className={`footer-copy-btn ${copied ? 'copied' : ''}`}
+                onClick={copyAddress}
+                title="Copy contract address"
+              >
+                {copied ? <Check size={12} strokeWidth={3} /> : <Copy size={12} />}
+                <span aria-live="polite">{copied ? 'Copied' : 'Copy'}</span>
+              </button>
+            </div>
+            <button
+              type="button"
+              className={`footer-contract-address ${copied ? 'copied' : ''}`}
+              onClick={copyAddress}
+              title={PREPROD_CONTRACT_ADDRESS}
+              aria-label={`Contract address ${PREPROD_CONTRACT_ADDRESS}. Click to copy.`}
+            >
+              {PREPROD_CONTRACT_ADDRESS}
+            </button>
+          </div>
         </div>
 
       </div>

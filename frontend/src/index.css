@@ -1247,6 +1247,12 @@ a {
   gap: 2.5rem;
 }
 
+/* Let grid columns shrink below their content width, so long unbreakable
+   text (e.g. the contract address) ellipsizes instead of stretching a column. */
+.footer-grid > * {
+  min-width: 0;
+}
+
 /* Responsive column collapse: 4 → 2 → 1 columns */
 @media (max-width: 800px) {
   .footer-grid {
@@ -1325,6 +1331,81 @@ a {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   border: 1px solid rgba(201, 162, 78, 0.25);
+}
+
+/* Deployed contract address (Network Status column) */
+.footer-contract {
+  margin-top: 1.25rem;
+}
+
+.footer-contract-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.footer-contract-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.footer-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 2px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-500);
+  transition: color 0.2s;
+}
+
+.footer-copy-btn:hover {
+  color: var(--gold-300);
+}
+
+/* State: address just copied — flips to verified emerald */
+.footer-copy-btn.copied {
+  color: var(--verify-400);
+}
+
+.footer-contract-address {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  background: var(--ink-950);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--gold-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.footer-contract-address:hover {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 3px var(--gold-glow);
+}
+
+.footer-contract-address.copied {
+  border-color: rgba(62, 168, 127, 0.5);
+  box-shadow: 0 0 0 3px var(--verify-glow);
 }
 
 .footer-bottom {

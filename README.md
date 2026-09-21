@@ -59,7 +59,7 @@ Legacy scholarship portals make students upload unencrypted transcripts, tax ret
 | 📊 User Feedback | [View Feedback](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471) |
 | 🐦 X Account | [@edurise01](https://x.com/edurise01) |
 | 🗓️ September X Post | [View on X](https://x.com/edurise01/status/2099907144980295848) |
-| 🌙 Network | Midnight Preprod |
+| 🌙 Network | [Midnight Preprod Contract Link](https://preprod.midnightexplorer.com/contracts/5a9cd8179b54c81863309dcfacd83f8207f0fc35a1ab79cc4ff524b334c8ae1e) |
 
 ---
 

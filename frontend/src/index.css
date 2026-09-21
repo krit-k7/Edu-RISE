@@ -1337,3 +1337,411 @@ a {
   color: var(--text-muted);
   font-size: 0.85rem;
 }
+
+/* ==========================================================================
+   ZK Simulator — "How Zero-Knowledge Works" playground (Landing page)
+   Private inputs (foil gold) -> WASM prover -> public proof (verified emerald).
+   All classes are prefixed `zk-` so nothing collides with existing styles.
+   ========================================================================== */
+.zk-section {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.zk-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 2rem;
+  background: linear-gradient(180deg, var(--ink-850), var(--ink-900-solid) 55%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(201, 162, 78, 0.08) inset;
+}
+
+/* Thin foil-gold hairline along the top edge */
+.zk-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 78, 0.55), transparent);
+  pointer-events: none;
+}
+
+/* Soft gold glow, top-right corner */
+.zk-glow {
+  position: absolute;
+  top: -6rem;
+  right: -6rem;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, var(--gold-glow), transparent 68%);
+  pointer-events: none;
+}
+
+/* --- Header --- */
+.zk-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.zk-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(201, 162, 78, 0.12);
+  border: 1px solid rgba(201, 162, 78, 0.3);
+  color: var(--gold-300);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.zk-title {
+  margin-top: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--text-primary);
+}
+
+.zk-live {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.zk-live-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--verify-400);
+}
+
+/* Expanding "ping" ring around the live dot */
+.zk-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--verify-400);
+  animation: zk-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes zk-ping {
+  75%, 100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* --- Layout: private panel | connector | public panel --- */
+.zk-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 5fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .zk-grid { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+}
+
+.zk-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba(10, 13, 24, 0.72);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.zk-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.zk-panel-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.zk-gold { color: var(--gold-300); }
+.zk-verify { color: var(--verify-400); }
+
+.zk-tag {
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.zk-tag-gold {
+  background: var(--gold-glow);
+  color: var(--gold-300);
+  border: 1px solid rgba(201, 162, 78, 0.25);
+}
+
+.zk-tag-mono {
+  background: var(--ink-800);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+/* --- Private inputs: sliders --- */
+.zk-field-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.zk-field-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.zk-field-value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold-300);
+}
+
+/* Range input: gold filled track (driven by --zk-pct) + foil thumb */
+.zk-range {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.zk-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--gold-500) var(--zk-pct, 50%),
+    var(--ink-750) var(--zk-pct, 50%)
+  );
+}
+
+.zk-range::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--gold-500) var(--zk-pct, 50%),
+    var(--ink-750) var(--zk-pct, 50%)
+  );
+}
+
+.zk-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px; /* centers the 18px thumb on the 6px track */
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--gold-300), var(--gold-600) 80%);
+  border: 2px solid var(--ink-950);
+  box-shadow: 0 0 0 1px var(--gold-500), 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.zk-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--gold-300), var(--gold-600) 80%);
+  border: 2px solid var(--ink-950);
+  box-shadow: 0 0 0 1px var(--gold-500), 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.zk-range:hover::-webkit-slider-thumb { transform: scale(1.12); }
+.zk-range:hover::-moz-range-thumb { transform: scale(1.12); }
+
+.zk-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px var(--gold-500), 0 0 0 5px var(--gold-glow);
+}
+.zk-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 1px var(--gold-500), 0 0 0 5px var(--gold-glow);
+}
+
+/* --- Connector (arrow between the two panels) --- */
+.zk-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.zk-connector-desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.zk-connector-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.zk-connector-orb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-800);
+  border: 1px solid var(--ink-750);
+  color: var(--gold-500);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Compact connector shown once the columns stack (<= 900px) */
+.zk-connector-mobile {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.15rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .zk-connector-desktop { display: none; }
+  .zk-connector-mobile { display: flex; }
+}
+
+/* --- Public output --- */
+.zk-panel-public { gap: 0.9rem; }
+
+.zk-commit {
+  padding: 0.75rem 0.9rem;
+  background: var(--ink-900-solid);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+}
+
+.zk-commit-label {
+  margin-bottom: 0.3rem;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.zk-commit-value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: all;
+}
+
+.zk-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.zk-result-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.zk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.zk-badge-ok {
+  background: rgba(62, 168, 127, 0.16);
+  color: var(--verify-400);
+  border: 1px solid rgba(62, 168, 127, 0.45);
+}
+
+.zk-badge-no {
+  background: var(--alert-glow);
+  color: var(--alert-400);
+  border: 1px solid rgba(193, 84, 58, 0.5);
+}
+
+.zk-note {
+  font-size: 0.72rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 600px) {
+  .zk-card { padding: 1.25rem; }
+  .zk-title { font-size: 1.35rem; }
+  /* Keep panel labels on one line on narrow phones */
+  .zk-panel-label { font-size: 0.66rem; letter-spacing: 0.06em; white-space: nowrap; }
+  .zk-tag { font-size: 0.56rem; letter-spacing: 0.04em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zk-live-dot::after { animation: none; opacity: 0; }
+}

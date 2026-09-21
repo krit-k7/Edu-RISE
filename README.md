@@ -5,15 +5,7 @@
 
 **Built with Compact on Midnight** — prove you clear the bar, reveal nothing behind it.
 
-[![Midnight Network](https://img.shields.io/badge/Network-Midnight_Preprod-blueviolet)](https://midnight.network)
-[![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)
-![Compact](https://img.shields.io/badge/Language-Compact-orange)
-![React](https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?logo=tailwindcss&logoColor=white)
-![Tests](https://img.shields.io/badge/Tested_With-Vitest-yellow?logo=vitest&logoColor=white)
-[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/Edu-Rise&root=frontend)
-[![X](https://img.shields.io/badge/Follow%20on%20X-000000?logo=x&logoColor=white)](https://x.com/edurise01)
+[![Midnight Network](https://img.shields.io/badge/Network-Midnight-blueviolet?style=for-the-badge)](https://midnight.network)[![Language](https://img.shields.io/badge/Language-Compact-orange?style=for-the-badge)](https://midnight.network)[![Tested With](https://img.shields.io/badge/Tested%20With-Vitest-yellow?style=for-the-badge)](https://vitest.dev)[![CI](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml/badge.svg)](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml)[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https://github.com/krit-k7/Edu-Rise&root=frontend)[![X](https://img.shields.io/badge/X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/edurise01)[![User Feedback](https://img.shields.io/badge/User%20Feedback-Google%20Sheets-34A853?style=for-the-badge&logo=googlesheets&logoColor=white)](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471)
 
 [🌐 Live Demo](https://edu-rise-sigma.vercel.app/) · [🎥 Demo Video](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing) · [📊 User Feedback](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471) · [⚙️ CI Pipeline](https://github.com/krit-k7/Edu-RISE/actions/workflows/ci.yaml) · [🐦 X Post](https://x.com/edurise01/status/2099907144980295848)
 

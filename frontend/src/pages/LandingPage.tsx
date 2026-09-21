@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShieldCheck, LockKeyhole, Zap, ChevronRight, Check } from 'lucide-react';
+import ZkSimulator from '../components/ZkSimulator';
 
 export default function LandingPage() {
   return (
@@ -110,6 +111,17 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Interactive ZK Playground — "How Zero-Knowledge Works" */}
+      <motion.section
+        className="zk-section"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.5 }}
+      >
+        <ZkSimulator />
+      </motion.section>
 
       {/* Features Section */}
       <section className="features-section">

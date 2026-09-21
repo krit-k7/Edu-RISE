@@ -69,6 +69,10 @@ Legacy scholarship portals make students upload unencrypted transcripts, tax ret
 
 <img width="1913" height="882" alt="Edu-Rise screenshot 2" src="https://github.com/user-attachments/assets/57cfe4f4-2b42-4552-aba0-7fb9f6f49528" />
 
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/2628fd11-ad67-4e54-9ba2-f221ac4e16e1" />
+
+
 ---
 
 ## 🧩 Architecture

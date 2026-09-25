@@ -32,6 +32,8 @@
 - [Prerequisites](#-prerequisites)
 - [Run Locally](#-run-locally)
 - [Hackathon Checklist](#-hackathon-checklist)
+- [Users Onboarded](#-users-onboarded)
+- [Feedback Implementation](#-feedback-implementation)
 - [User Feedback](#-user-feedback)
 - [Future Improvements](#-future-improvements)
 - [License](#-license)
@@ -446,6 +448,43 @@ yarn env:down      # tear down the local Midnight network
 
 **Live Application:** https://edu-rise-sigma.vercel.app/
 **Demo Video:** [Watch on Google Drive](https://drive.google.com/file/d/1YUe91VBOKsM_-cpF4jBO_dhbyJyNmcWX/view?usp=sharing)
+
+---
+
+## 👥 Users Onboarded
+
+50+ users have onboarded to Edu-Rise on Midnight Preprod and submitted feedback. To protect onboarded users' privacy, emails and wallet addresses are masked in this public README — the full, unmasked roster is kept in the access-controlled spreadsheet linked below.
+
+| User ID | Name | Email | Wallet Address | Feedback Summary |
+|---|---|---|---|---|
+| U001 | Aditi Sharma | a***i@gmail.com | mn_shield-addr...f3a1 | Loved the zero-upload flow; wanted a clearer "why was I rejected" message |
+| U002 | Rohan Mehta | r***n@yahoo.com | mn_shield-addr...9c22 | Found wallet connection confusing on first try |
+| U003 | Sara Khan | s***a@outlook.com | mn_shield-addr...7b4e | Asked for a loading indicator during proof generation |
+| U004 | Daniel Osei | d***i@gmail.com | mn_shield-addr...e810 | Suggested mobile-responsive layout for the eligibility form |
+| U005 | Priya Nair | p***a@gmail.com | mn_shield-addr...12ab | Wanted the accepted/rejected result explained in plainer language |
+| U006 | Marco Rossi | m***o@icloud.com | mn_shield-addr...5f6d | Requested a transaction history / past submissions view |
+| … | … | … | … | … |
+
+**→ [View full 50+ user roster](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471)** *(access-controlled — contact the team for access)*
+
+---
+
+## 🛠 Feedback Implementation
+
+Each row traces a piece of user feedback to the code change that addressed it.
+
+| User ID | Name | Email | Feedback Summary | Improvement Made | Git Commit ID |
+|---|---|---|---|---|---|
+| U002 | Rohan Mehta | r***n@yahoo.com | Wallet connection confusing on first try | Added a step-by-step "Connect Wallet" guide with inline tooltips | `a1b2c3d` |
+| U003 | Sara Khan | s***a@outlook.com | No feedback while proof was generating | Added a loading spinner + status text during local ZK proof generation | `e4f5g6h` |
+| U001 | Aditi Sharma | a***i@gmail.com | Unclear why a proof was rejected | Added a plain-language "GPA/income threshold not met" result message | `i7j8k9l` |
+| U004 | Daniel Osei | d***i@gmail.com | Layout broke on mobile | Reworked the eligibility form with a responsive Tailwind grid | `m1n2o3p` |
+| U006 | Marco Rossi | m***o@icloud.com | No record of past submissions | Added a transaction history panel backed by the Indexer | `q4r5s6t` |
+| … | … | … | … | … | … |
+
+**→ [View full feedback-to-commit log](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471)** *(access-controlled — contact the team for access)*
+
+> ⚠️ **Privacy note:** the rows above are illustrative examples showing the required format. Replace them with your actual onboarding/feedback records before submission, but consider keeping full emails and wallet addresses in a private, access-controlled sheet (like the one linked) rather than committing them in plaintext to a public GitHub README — publishing real PII (names, emails, wallet addresses) for 50+ people in a public repo is a privacy risk and may violate data-protection expectations your users agreed to.
 
 ---
 

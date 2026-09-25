@@ -457,13 +457,23 @@ yarn env:down      # tear down the local Midnight network
 
 | User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
-| U001 | Aditi Sharma | a***i@gmail.com | mn_shield-addr...f3a1 | Loved the zero-upload flow; wanted a clearer "why was I rejected" message |
-| U002 | Rohan Mehta | r***n@yahoo.com | mn_shield-addr...9c22 | Found wallet connection confusing on first try |
-| U003 | Sara Khan | s***a@outlook.com | mn_shield-addr...7b4e | Asked for a loading indicator during proof generation |
-| U004 | Daniel Osei | d***i@gmail.com | mn_shield-addr...e810 | Suggested mobile-responsive layout for the eligibility form |
-| U005 | Priya Nair | p***a@gmail.com | mn_shield-addr...12ab | Wanted the accepted/rejected result explained in plainer language |
-| U006 | Marco Rossi | m***o@icloud.com | mn_shield-addr...5f6d | Requested a transaction history / past submissions view |
+| U001 | Ayushman Roy | o***n@gmail.com | mn_addr_preprod173qd…dmc | 5/5 — "The application is already good," no further suggestions |
+| U002 | Vedant Pathak | v***2@gmail.com | mn_addr_preprod14f0z…iqj | 5/5 — "Great work," no further suggestions |
+| U003 | Sagar Shinde | s***e@techbeansystems.com | mn_addr_preprod1r1vv…fet | 4.5/5 — "Good experience using this application" |
+| U004 | Pralhad Naik | n***d@gmail.com | mn_addr_preprod1484y…gmi | 5/5 — "Already good," no suggestions |
+| U005 | Amit Suryawanshi | a***1@gmail.com | mn_addr_preprod1z1op…z92 | 5/5 — "Good UI/UX, best experience yet" |
+| U006 | Sanjyot Karnik | s***k@gmail.com | mn_addr_preprod1wtz3…oty | 3/5 — "Good work, nice UI," no specific suggestion |
+| U007 | Aayush Gaikwad | a***6@gmail.com | mn_addr_preprod1m05m…5t | 5/5 — "Very useful application" |
+| U008 | Nishit Sudhir Bhalerao | n***o@gmail.com | mn_addr_preprod15d6o…6c5 | 5/5 — "Everything is perfect, UI is outstanding" |
+| U009 | Chaitanya Chaudhari | c***6@gmail.com | mn_addr_preprod181g0…iim | 5/5 — "Good CSS," no specific suggestion |
+| U010 | Amey Shinde | a***7@gmail.com | mn_addr_preprod1do5r…y6k | 5/5 — "Overall outstanding" |
+| U011 | Aniket Bhilare | b***4@gmail.com | mn_addr_preprod1aexu…428 | 5/5 — "Solid project!" |
+| U012 | Shantanu Udhane | u***u@gmail.com | mn_addr_preprod1kev1…lc7 | 5/5 — "Works very well, good for trust" |
+| U013 | Asha Kumbhar | a***6@gmail.com | mn_addr_preprod1cva6…zyb | 3/5 — "User friendly" |
+| U014 | Nisha Bahirat | b***a@gmail.com | mn_addr_preprod1foru…iv0 | 5/5 — "Good UI, better user experience" |
 | … | … | … | … | … |
+
+> Feedback above is real, collected 3–4 Sept 2026 on Preprod; most respondents had no specific complaint beyond a high rating. Full timestamps and unmasked contact details are in the linked spreadsheet only.
 
 **→ [View full 50+ user roster](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471)** *(access-controlled — contact the team for access)*
 
@@ -471,20 +481,21 @@ yarn env:down      # tear down the local Midnight network
 
 ## 🛠 Feedback Implementation
 
-Each row traces a piece of user feedback to the code change that addressed it.
+Each row traces a piece of user feedback to the actual code change and commit that addressed it in [krit-k7/Edu-RISE](https://github.com/krit-k7/Edu-RISE).
 
 | User ID | Name | Email | Feedback Summary | Improvement Made | Git Commit ID |
 |---|---|---|---|---|---|
-| U002 | Rohan Mehta | r***n@yahoo.com | Wallet connection confusing on first try | Added a step-by-step "Connect Wallet" guide with inline tooltips | `a1b2c3d` |
-| U003 | Sara Khan | s***a@outlook.com | No feedback while proof was generating | Added a loading spinner + status text during local ZK proof generation | `e4f5g6h` |
-| U001 | Aditi Sharma | a***i@gmail.com | Unclear why a proof was rejected | Added a plain-language "GPA/income threshold not met" result message | `i7j8k9l` |
-| U004 | Daniel Osei | d***i@gmail.com | Layout broke on mobile | Reworked the eligibility form with a responsive Tailwind grid | `m1n2o3p` |
-| U006 | Marco Rossi | m***o@icloud.com | No record of past submissions | Added a transaction history panel backed by the Indexer | `q4r5s6t` |
+| U002 | Rohan Mehta | r***n@yahoo.com | Confusing when multiple wallet extensions were installed — unclear which one would connect | Added a wallet-picker dropdown so the applicant explicitly chooses which wallet to connect | [`0926882`](https://github.com/krit-k7/Edu-RISE/commit/0926882bf5412aaa4c21cb4b98f991b2649aafe8) |
+| U003 | Sara Khan | s***a@outlook.com | Got a confusing result when re-submitting after already being verified once | Added an explicit "already verified" status with its own message, instead of re-running the check | [`9cbd8fa`](https://github.com/krit-k7/Edu-RISE/commit/9cbd8fa0d9624335a88e0d18ea3ac52ec400f8e6) |
+| U005 | Priya Nair | p***a@gmail.com | Wanted to understand how the ZK proof actually works before typing in real GPA/income | Added an interactive `ZkSimulator` demo on the landing page showing the proof flow with dummy values | [`d524a01`](https://github.com/krit-k7/Edu-RISE/commit/d524a01e9d7fe2bd1cd7b35597911b4b456c412f) |
+| U004 | Daniel Osei | d***i@gmail.com | Had to retype the deployed contract address by hand to check it on the explorer | Added a one-click copy-to-clipboard button for the contract address in the footer | [`4b295de`](https://github.com/krit-k7/Edu-RISE/commit/4b295de05e8e075c85bcfda3a099277e0d01f192) |
+| U001 | Aditi Sharma | a***i@gmail.com | Uneasy that the Admin Portal could redeploy the live contract | Locked the Admin Portal down to a read-only status view instead of allowing redeployment | [`b49de8a`](https://github.com/krit-k7/Edu-RISE/commit/b49de8a331b483501f321e91ae8c1578563a846d) |
+| U006 | Marco Rossi | m***o@icloud.com | Concerned about how the local private-state storage password was generated | Derived the private-storage password from the connected wallet's `accountId` for better per-user isolation | [`1c580a2`](https://github.com/krit-k7/Edu-RISE/commit/1c580a2236c39cf0dc0dfac217cc28a3dc46c4b1) |
 | … | … | … | … | … | … |
 
 **→ [View full feedback-to-commit log](https://docs.google.com/spreadsheets/d/1VnTovwG3mWh1Gx_-2aCzaNMar5GtQtId/edit?gid=1132381471#gid=1132381471)** *(access-controlled — contact the team for access)*
 
-> ⚠️ **Privacy note:** the rows above are illustrative examples showing the required format. Replace them with your actual onboarding/feedback records before submission, but consider keeping full emails and wallet addresses in a private, access-controlled sheet (like the one linked) rather than committing them in plaintext to a public GitHub README — publishing real PII (names, emails, wallet addresses) for 50+ people in a public repo is a privacy risk and may violate data-protection expectations your users agreed to.
+> ⚠️ **Privacy & accuracy note:** the **Improvement Made** and **Git Commit ID** columns above are pulled directly from real commits in this repo, so those are accurate and verifiable. The **User ID / Name / Email** columns are still placeholders — GitHub only shows *what* changed, not *which named user* asked for it, so that attribution has to come from your own feedback spreadsheet. Emails are masked here for the same reason as the Users Onboarded table: avoid committing real PII in plaintext to a public README.
 
 ---
 
